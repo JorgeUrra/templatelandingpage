@@ -7,12 +7,22 @@ interface Props {
   description?: string;
 }
 const { title = siteConfig.seo.title, description = siteConfig.seo.description } = Astro.props;
+const isServices = siteConfig.businessType === 'services';
+const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encodeURIComponent('Hola, quiero solicitar una cotización a ' + siteConfig.business.name)}`;
 ---
 <!doctype html>
 <html lang="es" class={activeTheme.className}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {isServices && <link rel="icon" type="image/png" href="/images/peumatek-icon.png" />}
+    {isServices && (
+      <>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" />
+      </>
+    )}
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
@@ -24,16 +34,39 @@ const { title = siteConfig.seo.title, description = siteConfig.seo.description }
     <header class="site-header">
       <div class="container site-header__inner">
         <a href="#inicio" class="brand" aria-label={siteConfig.business.name}>
-          <span class="brand__mark">{siteConfig.business.logoText}</span>
-          <span>{siteConfig.business.name}</span>
+          {isServices ? (
+            <img class="brand__svg" src="/images/peumatek-icon.png" alt="PeumaTek" width="42" height="42" />
+          ) : (
+            <span class="brand__mark">{siteConfig.business.logoText}</span>
+          )}
+          {isServices ? (
+            <span>Peuma<em class="brand-accent">Tek</em></span>
+          ) : (
+            <span>{siteConfig.business.name}</span>
+          )}
         </a>
         <nav class="nav">
-          <a href="#beneficios">Beneficios</a>
-          {siteConfig.businessType === 'gym' && <a href="#planes-gimnasio">Planes</a>}
-          {siteConfig.businessType === 'automotive' && <a href="#vehiculos">Vehículos</a>}
-          <a href="#faq">FAQ</a>
-          <a href="#contacto">Contacto</a>
+          {isServices ? (
+            <>
+              <a href="#servicios">Servicios</a>
+              <a href="#planes">Planes</a>
+              <a href="#portafolio">Proyectos</a>
+              <a href="#about">Quién está detrás</a>
+              <a href="#contacto">Contacto</a>
+            </>
+          ) : (
+            <>
+              <a href="#beneficios">Beneficios</a>
+              {siteConfig.businessType === 'gym' && <a href="#planes-gimnasio">Planes</a>}
+              {siteConfig.businessType === 'automotive' && <a href="#vehiculos">Vehículos</a>}
+              <a href="#faq">FAQ</a>
+              <a href="#contacto">Contacto</a>
+            </>
+          )}
         </nav>
+        {isServices && (
+          <a href="#contacto" class="btn btn--primary header-cta">Solicitar cotización</a>
+        )}
       </div>
     </header>
     <main>
@@ -44,12 +77,32 @@ const { title = siteConfig.seo.title, description = siteConfig.seo.description }
         <div>
           <strong>{siteConfig.business.name}</strong>
           <p>{siteConfig.business.description}</p>
+          {isServices && siteConfig.social && (
+            <div class="footer-social">
+              {siteConfig.social.github && <a href={siteConfig.social.github} target="_blank" rel="noopener">GitHub</a>}
+              {siteConfig.social.linkedin && <a href={siteConfig.social.linkedin} target="_blank" rel="noopener">LinkedIn</a>}
+              {siteConfig.social.instagram && <a href={siteConfig.social.instagram} target="_blank" rel="noopener">Instagram</a>}
+            </div>
+          )}
         </div>
         <div>
-          <p>{siteConfig.business.address}</p>
+          <p>{siteConfig.business.city}</p>
           <p>{siteConfig.business.email}</p>
+          {isServices && <p class="footer-tagline">{siteConfig.business.slogan}</p>}
         </div>
       </div>
     </footer>
+    <script>
+      // Spotlight hover: cada card .js-spotlight recibe la posición del cursor
+      // en variables CSS (--mx/--my) para iluminar suavemente bajo el mouse.
+      const spotlightCards = document.querySelectorAll('.js-spotlight');
+      spotlightCards.forEach((card) => {
+        card.addEventListener('pointermove', (event) => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty('--mx', `${event.clientX - rect.left}px`);
+          card.style.setProperty('--my', `${event.clientY - rect.top}px`);
+        });
+      });
+    </script>
   </body>
 </html>

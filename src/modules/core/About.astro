@@ -1,0 +1,42 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import Button from '../shared/Button.astro';
+import { siteConfig } from '../../config/site.config';
+import { aboutPeumatek } from '../../data/peumatek';
+
+const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encodeURIComponent('Hola, quiero contactar con ' + siteConfig.business.name)}`;
+---
+
+<section class="section section--muted" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-profile">
+        {aboutPeumatek.profilePhoto
+          ? <img class="about-avatar about-avatar--photo" src={aboutPeumatek.profilePhoto} alt={aboutPeumatek.profileName} width="72" height="72" />
+          : <div class="about-avatar">{aboutPeumatek.profileInitials}</div>}
+        <div class="about-profile-info">
+          <strong>{aboutPeumatek.profileName}</strong>
+          <span class="muted">{aboutPeumatek.profileTitle}</span>
+        </div>
+        <div class="about-stack">
+          {aboutPeumatek.highlightedStack.map((tech) => (
+            <span class="tech-tag">{tech}</span>
+          ))}
+        </div>
+        <div class="about-actions">
+          <Button href="#contacto" label="Solicitar cotización" variant="primary" />
+          <Button href={whatsappUrl} target="_blank" label="Hablar por WhatsApp" variant="whatsapp" />
+        </div>
+      </div>
+      <div class="about-content">
+        <SectionHeader
+          eyebrow={aboutPeumatek.eyebrow}
+          title={aboutPeumatek.title}
+          align="left"
+        />
+        <p class="about-intro">{aboutPeumatek.intro}</p>
+        <p class="muted">{aboutPeumatek.body}</p>
+      </div>
+    </div>
+  </div>
+</section>

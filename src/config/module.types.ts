@@ -22,12 +22,15 @@ export type ModuleKey =
   | 'financing'
   | 'tradeIn'
   | 'purchaseProcess'
-  | 'testDrive';
+  | 'testDrive'
+  | 'portfolio'
+  | 'about'
+  | 'workProcess';
 
 export type ModuleDefinition = {
   key: ModuleKey;
   label: string;
-  category: 'core' | 'conversion' | 'trust' | 'gym' | 'automotive';
+  category: 'core' | 'conversion' | 'trust' | 'gym' | 'automotive' | 'portfolio';
   description: string;
   plans: CommercialPlan[];
   businessTypes: BusinessType[];

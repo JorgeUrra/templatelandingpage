@@ -1,4 +1,4 @@
-export type ThemePreset = 'fitness-dark' | 'automotive-clean' | 'professional-light' | 'local-warm';
+export type ThemePreset = 'fitness-dark' | 'automotive-clean' | 'professional-light' | 'local-warm' | 'peumatek';
 
 export const themes = {
   'fitness-dark': {
@@ -24,5 +24,11 @@ export const themes = {
     className: 'theme-local-warm',
     primary: '#c2410c',
     secondary: '#431407'
+  },
+  'peumatek': {
+    name: 'PeumaTek',
+    className: 'theme-peumatek',
+    primary: '#3FA66B',
+    secondary: '#101827'
   }
 } as const;

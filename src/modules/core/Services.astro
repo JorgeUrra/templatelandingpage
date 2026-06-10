@@ -1,17 +1,49 @@
 ---
 import SectionHeader from '../shared/SectionHeader.astro';
 import { services } from '../../data/core';
+import { siteConfig } from '../../config/site.config';
+import { lineIcons } from '../../data/icons';
+
+const isServices = siteConfig.businessType === 'services';
 ---
-<section class="section section--muted" id="servicios">
-  <div class="container">
-    <SectionHeader eyebrow="Servicios" title="Servicios principales" description="Módulo transversal para explicar qué ofrece cada negocio." />
-    <div class="grid grid--3">
-      {services.map((service) => (
-        <article class="card">
-          <h3>{service.title}</h3>
-          <p>{service.description}</p>
-        </article>
-      ))}
+{isServices ? (
+  <section class="section section--muted" id="servicios">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Servicios"
+        title="Qué puedo desarrollar para tu negocio"
+        description="Desde un sitio simple hasta sistemas completos. Cada proyecto se ajusta a lo que realmente necesitas."
+      />
+      <div class="services-bento">
+        {services.map((s, i) => {
+          const wide = i === 0 || i === services.length - 1;
+          return (
+            <article class:list={["card", "service-card", "js-spotlight", wide && "service-card--wide"]}>
+              <span class="spotlight" aria-hidden="true"></span>
+              <span class="service-icon" set:html={lineIcons[(s as any).icon] ?? ''}></span>
+              <div class="service-card__body">
+                <h3>{s.title}</h3>
+                <p>{s.description}</p>
+                {(s as any).meta && <span class="service-meta">{(s as any).meta}</span>}
+              </div>
+            </article>
+          );
+        })}
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+) : (
+  <section class="section section--muted" id="servicios">
+    <div class="container">
+      <SectionHeader eyebrow="Servicios" title="Servicios principales" description="Módulo transversal para explicar qué ofrece cada negocio." />
+      <div class="grid grid--3">
+        {services.map((service) => (
+          <article class="card">
+            <h3>{service.title}</h3>
+            <p>{service.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

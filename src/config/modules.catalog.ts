@@ -23,5 +23,10 @@ export const modulesCatalog: ModuleDefinition[] = [
   { key: 'financing', label: 'Financiamiento', category: 'automotive', description: 'Sección y formulario de interés por financiamiento.', plans: ['reserva','pro'], businessTypes: ['automotive'] },
   { key: 'tradeIn', label: 'Parte de pago', category: 'automotive', description: 'Formulario para recibir vehículo en parte de pago.', plans: ['pro'], businessTypes: ['automotive'] },
   { key: 'purchaseProcess', label: 'Proceso de compra', category: 'automotive', description: 'Pasos de compra, visita, financiamiento y entrega.', plans: ['pro'], businessTypes: ['automotive'] },
-  { key: 'testDrive', label: 'Prueba de manejo', category: 'conversion', description: 'Agendar visita o prueba de manejo.', plans: ['reserva','pro'], businessTypes: ['automotive'] }
+  { key: 'testDrive', label: 'Prueba de manejo', category: 'conversion', description: 'Agendar visita o prueba de manejo.', plans: ['reserva','pro'], businessTypes: ['automotive'] },
+
+  { key: 'portfolio', label: 'Proyectos y experiencia', category: 'portfolio', description: 'Apps propias publicadas o en desarrollo y casos de solución anonimizados. Ideal para agencias, freelancers y empresas de tecnología.', plans: ['emprende','reserva','pro'], businessTypes: ['gym','automotive','services','health','beauty'] },
+
+  { key: 'about', label: 'Quién está detrás', category: 'trust', description: 'Perfil breve del responsable o equipo, orientado a generar confianza sin extenderse como un CV.', plans: ['emprende','reserva','pro'], businessTypes: ['gym','automotive','services','health','beauty'] },
+  { key: 'workProcess', label: 'Proceso de trabajo', category: 'trust', description: 'Pasos del proceso de trabajo o entrega, desde diagnóstico hasta soporte.', plans: ['reserva','pro'], businessTypes: ['gym','automotive','services','health','beauty'] }
 ];

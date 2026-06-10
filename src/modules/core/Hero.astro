@@ -1,38 +1,124 @@
 ---
 import { siteConfig } from '../../config/site.config';
 import Button from '../shared/Button.astro';
+import { heroNodes, techStack } from '../../data/peumatek';
+import { lineIcons } from '../../data/icons';
+
+const isPeumatek = siteConfig.businessType === 'services';
 
 const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encodeURIComponent('Hola, quiero más información sobre ' + siteConfig.business.name)}`;
 const actions = {
   whatsapp: whatsappUrl,
   contact: '#contacto',
   booking: '#reserva',
-  vehicles: '#vehiculos'
+  vehicles: '#vehiculos',
+  services: '#servicios'
 };
+
+// Divide el título para resaltar la palabra clave en degradado.
+const { title, titleAccent } = siteConfig.hero;
+let titleBefore = title;
+let titleAfter = '';
+let accent = '';
+if (titleAccent && title.includes(titleAccent)) {
+  const i = title.indexOf(titleAccent);
+  titleBefore = title.slice(0, i);
+  accent = titleAccent;
+  titleAfter = title.slice(i + titleAccent.length);
+}
+
+// Posiciones hexagonales (en %) de los nodos satélite alrededor del centro.
+const nodePositions = [
+  { x: 50, y: 13 },
+  { x: 82, y: 31 },
+  { x: 82, y: 69 },
+  { x: 50, y: 87 },
+  { x: 18, y: 69 },
+  { x: 18, y: 31 },
+];
+const nodes = heroNodes.slice(0, 6).map((n, i) => ({ ...n, ...nodePositions[i] }));
 ---
-<section class="hero" id="inicio">
-  <div class="container hero__grid">
-    <div class="hero__content">
-      <span class="eyebrow">{siteConfig.hero.eyebrow}</span>
-      <h1>{siteConfig.hero.title}</h1>
-      <p>{siteConfig.hero.subtitle}</p>
-      <div class="hero__actions">
-        <Button href={actions[siteConfig.hero.primaryAction]} label={siteConfig.hero.primaryText} />
-        {siteConfig.hero.secondaryText && siteConfig.hero.secondaryAction && (
-          <Button href={actions[siteConfig.hero.secondaryAction]} label={siteConfig.hero.secondaryText} variant="secondary" />
-        )}
+{isPeumatek ? (
+  <section class="hero hero--peumatek" id="inicio">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="hero__glow hero__glow--green" aria-hidden="true"></div>
+    <div class="hero__glow hero__glow--orange" aria-hidden="true"></div>
+    <div class="container hero__grid">
+      <div class="hero__content">
+        <span class="eyebrow eyebrow--node">{siteConfig.hero.eyebrow}</span>
+        <h1>
+          {titleBefore}
+          {accent && <span class="text-gradient">{accent}</span>}
+          {titleAfter}
+        </h1>
+        <p>{siteConfig.hero.subtitle}</p>
+        <div class="hero__actions">
+          <Button href={actions[siteConfig.hero.primaryAction]} label={siteConfig.hero.primaryText} />
+          {siteConfig.hero.secondaryText && siteConfig.hero.secondaryAction && (
+            <Button href={actions[siteConfig.hero.secondaryAction]} label={siteConfig.hero.secondaryText} variant="secondary" />
+          )}
+        </div>
+        <div class="hero__stack">
+          <span class="hero__stack-label">Stack</span>
+          <div class="hero__stack-tags">
+            {techStack.map((t) => (
+              <span class="tech-chip" tabindex="0" aria-label={t.name}>
+                <img class="tech-chip__icon" src={`/images/tech/${t.slug}.svg`} alt={t.name} width="26" height="26" loading="lazy" />
+                <span class="tech-chip__tip" role="tooltip">
+                  <strong>{t.name}</strong>
+                  <span>{t.description}</span>
+                </span>
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
-      <div class="hero__meta">
-        <span>{siteConfig.business.city}</span>
-        <span>{siteConfig.business.email}</span>
+
+      <div class="hero__visual" aria-label="PeumaTek conecta distintos tipos de soluciones digitales">
+        <div class="constellation">
+          <svg class="constellation__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            {nodes.map((n) => (
+              <line x1="50" y1="50" x2={n.x} y2={n.y} />
+            ))}
+          </svg>
+          {nodes.map((n) => (
+            <span class="constellation__node" style={`left:${n.x}%; top:${n.y}%`}>
+              <span class="constellation__icon" set:html={lineIcons[n.icon]}></span>
+              <span class="constellation__label">{n.label}</span>
+            </span>
+          ))}
+          <span class="constellation__core">
+            <img src="/images/peumatek-icon.png" alt="PeumaTek" width="92" height="92" />
+          </span>
+        </div>
       </div>
     </div>
-    <div class="hero__visual" aria-label="Visual del negocio">
-      <div class="hero__mock">
-        <div class="hero__logo">{siteConfig.business.logoText}</div>
-        <h3>{siteConfig.business.name}</h3>
-        <p>{siteConfig.business.slogan}</p>
+  </section>
+) : (
+  <section class="hero" id="inicio">
+    <div class="container hero__grid">
+      <div class="hero__content">
+        <span class="eyebrow">{siteConfig.hero.eyebrow}</span>
+        <h1>{siteConfig.hero.title}</h1>
+        <p>{siteConfig.hero.subtitle}</p>
+        <div class="hero__actions">
+          <Button href={actions[siteConfig.hero.primaryAction]} label={siteConfig.hero.primaryText} />
+          {siteConfig.hero.secondaryText && siteConfig.hero.secondaryAction && (
+            <Button href={actions[siteConfig.hero.secondaryAction]} label={siteConfig.hero.secondaryText} variant="secondary" />
+          )}
+        </div>
+        <div class="hero__meta">
+          <span>{siteConfig.business.city}</span>
+          <span>{siteConfig.business.email}</span>
+        </div>
+      </div>
+      <div class="hero__visual" aria-label="Visual del negocio">
+        <div class="hero__mock">
+          <div class="hero__logo">{siteConfig.business.logoText}</div>
+          <h3>{siteConfig.business.name}</h3>
+          <p>{siteConfig.business.slogan}</p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+)}

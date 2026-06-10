@@ -1,18 +1,44 @@
 ---
 import SectionHeader from '../shared/SectionHeader.astro';
 import { benefits } from '../../data/core';
+import { siteConfig } from '../../config/site.config';
+import { lineIcons } from '../../data/icons';
+
+const isServices = siteConfig.businessType === 'services';
 ---
-<section class="section" id="beneficios">
-  <div class="container">
-    <SectionHeader eyebrow="Beneficios" title="Por qué elegirnos" description="Argumentos claros para que el visitante entienda rápido el valor del negocio." />
-    <div class="grid grid--3">
-      {benefits.map((item) => (
-        <article class="card feature-card">
-          <div class="icon-badge">{item.icon}</div>
-          <h3>{item.title}</h3>
-          <p>{item.description}</p>
-        </article>
-      ))}
+{isServices ? (
+  <section class="section benefits--rich" id="beneficios">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Por qué PeumaTek"
+        title="Tecnología simple que resuelve de verdad"
+        description="Sin vueltas ni promesas de agencia: desarrollo directo, stack mantenible y foco en tu problema real."
+      />
+      <div class="grid grid--3 benefits-grid">
+        {benefits.map((item) => (
+          <article class="card benefit-card js-spotlight">
+            <span class="spotlight" aria-hidden="true"></span>
+            <span class="benefit-icon" set:html={lineIcons[item.icon] ?? ''}></span>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))}
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+) : (
+  <section class="section" id="beneficios">
+    <div class="container">
+      <SectionHeader eyebrow="Beneficios" title="Por qué elegirnos" description="Argumentos claros para que el visitante entienda rápido el valor del negocio." />
+      <div class="grid grid--3">
+        {benefits.map((item) => (
+          <article class="card feature-card">
+            <div class="icon-badge">{item.icon}</div>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

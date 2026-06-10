@@ -1,0 +1,24 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import { workProcess } from '../../data/peumatek';
+---
+
+<section class="section" id="proceso">
+  <div class="container">
+    <SectionHeader
+      eyebrow="Cómo trabajo"
+      title="Proceso de trabajo"
+      description="Cada proyecto sigue un proceso claro para que sepas en qué etapa estamos y qué sigue."
+      align="center"
+    />
+    <div class="process-grid">
+      {workProcess.map((item) => (
+        <article class="card process-card">
+          <span class="process-step-num">{item.step}</span>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

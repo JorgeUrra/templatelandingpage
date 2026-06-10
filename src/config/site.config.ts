@@ -26,15 +26,19 @@ export type SiteConfig = {
     facebook?: string;
     tiktok?: string;
     website?: string;
+    github?: string;
+    linkedin?: string;
   };
   hero: {
     eyebrow: string;
     title: string;
+    titleAccent?: string;
     subtitle: string;
     primaryText: string;
-    primaryAction: 'whatsapp' | 'contact' | 'booking' | 'vehicles';
+    primaryAction: 'whatsapp' | 'contact' | 'booking' | 'vehicles' | 'services';
     secondaryText?: string;
-    secondaryAction?: 'whatsapp' | 'contact' | 'booking' | 'vehicles';
+    secondaryAction?: 'whatsapp' | 'contact' | 'booking' | 'vehicles' | 'services';
+    tags?: string[];
   };
   map: {
     embedUrl: string;
@@ -52,6 +56,7 @@ const gymModules: ModuleKey[] = [
   'trialClass',
   'trainers',
   'gallery',
+  'portfolio',
   'testimonials',
   'faq',
   'businessHours',
@@ -69,6 +74,7 @@ const automotiveModules: ModuleKey[] = [
   'tradeIn',
   'purchaseProcess',
   'gallery',
+  'portfolio',
   'testimonials',
   'faq',
   'businessHours',
@@ -77,7 +83,20 @@ const automotiveModules: ModuleKey[] = [
   'contact'
 ];
 
-export const demoSites: Record<'gym' | 'automotive', SiteConfig> = {
+const peumatekModules: ModuleKey[] = [
+  'hero',
+  'benefits',
+  'services',
+  'pricing',
+  'portfolio',
+  'workProcess',
+  'about',
+  'faq',
+  'contact',
+  'socialLinks'
+];
+
+export const demoSites: Record<'gym' | 'automotive' | 'peumatek', SiteConfig> = {
   gym: {
     businessType: 'gym',
     commercialPlan: 'pro',
@@ -155,13 +174,55 @@ export const demoSites: Record<'gym' | 'automotive', SiteConfig> = {
       directionsUrl: 'https://www.google.com/maps/search/?api=1&query=San%20Fernando%20Chile'
     },
     modules: automotiveModules
+  },
+  peumatek: {
+    businessType: 'services',
+    commercialPlan: 'pro',
+    themePreset: 'peumatek',
+    business: {
+      name: 'PeumaTek',
+      slogan: 'Tecnología simple para resolver lo cotidiano',
+      description: 'Estudio de desarrollo digital especializado en aplicaciones web, móviles, sistemas internos, integraciones y automatizaciones para negocios reales.',
+      city: 'Peumo, Chile',
+      address: 'Peumo, Chile',
+      phone: '[AGREGAR_TELEFONO]',
+      whatsapp: '[AGREGAR_WHATSAPP]',
+      email: '[AGREGAR_EMAIL]',
+      logoText: 'PT'
+    },
+    seo: {
+      title: 'PeumaTek | Desarrollo digital a medida',
+      description: 'Desarrollo de sitios web, aplicaciones móviles, sistemas internos, integraciones y automatizaciones para negocios y profesionales en Chile.',
+      image: '/images/peumatek-logo.png'
+    },
+    social: {
+      github: 'https://github.com/',
+      linkedin: 'https://linkedin.com/in/'
+    },
+    hero: {
+      eyebrow: 'Desarrollo digital a medida',
+      title: 'Desarrollo soluciones digitales simples, modernas y a medida',
+      titleAccent: 'a medida',
+      subtitle: 'En PeumaTek diseño y desarrollo sitios web, aplicaciones móviles, sistemas internos, automatizaciones e integraciones pensadas para negocios reales.',
+      primaryText: 'Solicitar cotización',
+      primaryAction: 'contact',
+      secondaryText: 'Ver servicios',
+      secondaryAction: 'services',
+      tags: ['Angular', 'Ionic', '.NET', 'SQL Server', 'APIs REST', 'Capacitor']
+    },
+    map: {
+      embedUrl: '',
+      directionsUrl: ''
+    },
+    modules: peumatekModules
   }
 };
 
 // CAMBIO RAPIDO DE DEMO:
-// - Usa 'gym' para mostrar landing de gimnasio.
-// - Usa 'automotive' para mostrar landing de automotora.
-export const selectedDemo: keyof typeof demoSites = 'gym';
+// - 'gym'        → Landing de gimnasio (tema oscuro amarillo)
+// - 'automotive' → Landing de automotora (tema claro azul)
+// - 'peumatek'   → Sitio oficial PeumaTek (tema oscuro verde)
+export const selectedDemo: keyof typeof demoSites = 'peumatek';
 export const siteConfig = demoSites[selectedDemo];
 export const activeTheme = themes[siteConfig.themePreset];
 export const activeModules = siteConfig.modules;

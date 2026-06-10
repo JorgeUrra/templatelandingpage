@@ -1,0 +1,28 @@
+// ─────────────────────────────────────────────────────────────
+// Sistema de íconos PROPIO de PeumaTek.
+// No son íconos de línea genéricos: cada uno es una mini-constelación
+// de nodos + conexiones (eco directo del hero), con el "fruto del peumo"
+// (nodo naranjo, var --peumo) como acento de marca recurrente.
+// stroke="currentColor" → las líneas/nodos heredan el verde/naranja del contenedor.
+// Para agregar uno nuevo: suma una clave aquí y referénciala desde los datos.
+// ─────────────────────────────────────────────────────────────
+export const lineIcons: Record<string, string> = {
+  // Red / web: hub de nodos con núcleo-fruto
+  web: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="12" y1="12" x2="5.5" y2="6"/><line x1="12" y1="12" x2="18.5" y2="6"/><line x1="12" y1="12" x2="5.5" y2="18"/><line x1="12" y1="12" x2="18.5" y2="18"/><circle cx="5.5" cy="6" r="1.7" fill="currentColor" stroke="none"/><circle cx="18.5" cy="6" r="1.7" fill="currentColor" stroke="none"/><circle cx="5.5" cy="18" r="1.7" fill="currentColor" stroke="none"/><circle cx="18.5" cy="18" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="2.7" fill="var(--peumo,#F07820)" stroke="none"/></svg>',
+  // Móvil: dispositivo con dos nodos conectados en pantalla + fruto como botón
+  mobile: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.6"/><line x1="10" y1="7" x2="14" y2="7"/><circle cx="10" cy="7" r="1.1" fill="currentColor" stroke="none"/><circle cx="14" cy="7" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="18" r="1.4" fill="var(--peumo,#F07820)" stroke="none"/></svg>',
+  // Sistemas: paneles apilados con nodos indicadores (fruto arriba)
+  systems: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="6" rx="1.6"/><rect x="3.5" y="13.5" width="17" height="6" rx="1.6"/><circle cx="7" cy="7.5" r="1.3" fill="var(--peumo,#F07820)" stroke="none"/><circle cx="7" cy="16.5" r="1.3" fill="currentColor" stroke="none"/></svg>',
+  // Integraciones: núcleo-fruto conectando tres sistemas
+  integrations: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="12" y1="12" x2="5.5" y2="12"/><line x1="12" y1="12" x2="18" y2="6.5"/><line x1="12" y1="12" x2="18" y2="17.5"/><circle cx="5.5" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="18" cy="6.5" r="1.7" fill="currentColor" stroke="none"/><circle cx="18" cy="17.5" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="2.6" fill="var(--peumo,#F07820)" stroke="none"/></svg>',
+  // Datos: línea de tendencia con nodos, fruto en el punto más alto
+  data: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="5,15 10,11 14,13 19,7"/><line x1="3.5" y1="20" x2="20.5" y2="20"/><circle cx="5" cy="15" r="1.4" fill="currentColor" stroke="none"/><circle cx="10" cy="11" r="1.4" fill="currentColor" stroke="none"/><circle cx="14" cy="13" r="1.4" fill="currentColor" stroke="none"/><circle cx="19" cy="7" r="1.9" fill="var(--peumo,#F07820)" stroke="none"/></svg>',
+  // Apps: módulos conectados en grilla, fruto en el primero
+  apps: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="7" y1="7" x2="17" y2="7"/><line x1="7" y1="7" x2="7" y2="17"/><line x1="17" y1="7" x2="17" y2="17"/><line x1="7" y1="17" x2="17" y2="17"/><circle cx="7" cy="7" r="2.5" fill="var(--peumo,#F07820)" stroke="none"/><circle cx="17" cy="7" r="2.2" fill="currentColor" stroke="none"/><circle cx="7" cy="17" r="2.2" fill="currentColor" stroke="none"/><circle cx="17" cy="17" r="2.2" fill="currentColor" stroke="none"/></svg>',
+  // A medida: dos pistas con nodos ajustables (fruto = el ajustado)
+  custom: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="4" y1="8.5" x2="20" y2="8.5"/><line x1="4" y1="15.5" x2="20" y2="15.5"/><circle cx="9" cy="8.5" r="2.3" fill="var(--peumo,#F07820)" stroke="none"/><circle cx="15" cy="15.5" r="2.3" fill="currentColor" stroke="none"/></svg>',
+  // Tecnología: chip con núcleo-fruto y nodos en las patas
+  tech: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7.5" y="7.5" width="9" height="9" rx="1.8"/><line x1="12" y1="3.6" x2="12" y2="7.5"/><line x1="12" y1="16.5" x2="12" y2="20.4"/><line x1="3.6" y1="12" x2="7.5" y2="12"/><line x1="16.5" y1="12" x2="20.4" y2="12"/><circle cx="12" cy="3.6" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="20.4" r="1.1" fill="currentColor" stroke="none"/><circle cx="3.6" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="20.4" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.9" fill="var(--peumo,#F07820)" stroke="none"/></svg>',
+  // Acompañamiento: diálogo de nodos dentro de una burbuja (fruto al centro)
+  support: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a7.5 7.5 0 0 1-10.9 6.7L4.5 19l1.3-4.6A7.5 7.5 0 1 1 20 11z"/><circle cx="9" cy="11" r="1.2" fill="currentColor" stroke="none"/><circle cx="12.5" cy="11" r="1.4" fill="var(--peumo,#F07820)" stroke="none"/><circle cx="16" cy="11" r="1.2" fill="currentColor" stroke="none"/></svg>',
+};

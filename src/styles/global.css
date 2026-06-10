@@ -47,6 +47,21 @@
   --primary-contrast: #ffffff;
 }
 
+.theme-peumatek {
+  --bg: #101827;
+  --surface: #182336;
+  --surface-muted: #0c1220;
+  --text: #F4F7F8;
+  --muted: #8a9db8;
+  --border: rgba(63, 166, 107, 0.14);
+  --primary: #3FA66B;
+  --primary-contrast: #ffffff;
+  --accent: #F07820;
+  --secondary: #F4F7F8;
+  --shadow: 0 20px 70px rgba(0, 0, 0, 0.4);
+  --radius: 20px;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -106,6 +121,19 @@ img {
   font-weight: 800;
 }
 
+.brand__svg {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.brand-accent {
+  color: var(--accent, #F07820);
+  font-style: normal;
+}
+
 .brand__mark,
 .hero__logo,
 .avatar {
@@ -117,6 +145,18 @@ img {
   background: var(--primary);
   color: var(--primary-contrast);
   font-weight: 900;
+}
+
+.hero__logo--svg {
+  background: none;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  display: block;
+}
+
+.brand__svg {
+  object-fit: contain;
 }
 
 .nav {
@@ -775,7 +815,7 @@ textarea {
   border-radius: 12px;
   font-size: 0.85rem;
   font-weight: 700;
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.32);
   opacity: 0;
   transform: translateX(8px);
   pointer-events: none;
@@ -804,6 +844,241 @@ textarea {
   }
 }
 
+/* ════════════════════════════════════════════════════════════
+   Beneficios PeumaTek — cards tipo nodo, conectadas con la portada
+   ════════════════════════════════════════════════════════════ */
+
+.benefits--rich {
+  position: relative;
+}
+
+/* Textura de puntos que continúa la malla del hero */
+.benefits--rich::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(63, 166, 107, 0.07) 1px, transparent 1.5px);
+  background-size: 30px 30px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 42%, #000, transparent 78%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 42%, #000, transparent 78%);
+}
+
+.benefits--rich .container {
+  position: relative;
+  z-index: 1;
+}
+
+.benefit-card {
+  position: relative;
+  padding: 30px 26px 28px;
+  overflow: hidden;
+}
+
+.benefit-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 22px;
+  border-radius: 16px;
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary) 28%, transparent);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.benefit-icon svg {
+  width: 27px;
+  height: 27px;
+}
+
+.benefit-card:hover .benefit-icon {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+/* La card del medio usa el naranja de marca (alterna el ritmo) */
+.benefits--rich .benefit-card:nth-child(2) .benefit-icon {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+.benefits--rich .benefit-card:nth-child(2):hover .benefit-icon {
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* La card del medio ilumina su spotlight en naranja */
+.benefits--rich .benefit-card:nth-child(2) {
+  --spot: var(--accent);
+}
+
+.benefit-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+.benefit-card p {
+  font-size: 0.97rem;
+}
+
+/* ── Spotlight hover (brillo que sigue al cursor) ─────────── */
+
+.js-spotlight {
+  position: relative;
+  isolation: isolate;
+}
+
+.js-spotlight > .spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--spot, var(--primary)) 16%, transparent), transparent 62%);
+}
+
+.js-spotlight > *:not(.spotlight) {
+  position: relative;
+  z-index: 1;
+}
+
+.js-spotlight:hover > .spotlight {
+  opacity: 1;
+}
+
+/* ── Servicios: layout bento (tamaños variables) ─────────── */
+
+.services-bento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.services-bento .service-card:nth-child(1),
+.services-bento .service-card:nth-child(6) {
+  grid-column: span 2;
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 26px;
+}
+
+.service-card--wide {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px;
+  --spot: var(--accent);
+}
+
+.service-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  flex: none;
+  border-radius: 14px;
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary) 28%, transparent);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.service-icon svg {
+  width: 25px;
+  height: 25px;
+}
+
+.service-card--wide .service-icon {
+  width: 60px;
+  height: 60px;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+.service-card--wide .service-icon svg {
+  width: 29px;
+  height: 29px;
+}
+
+.service-card:hover .service-icon {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--primary) 28%, transparent);
+}
+
+.service-card--wide:hover .service-icon {
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+.service-card__body {
+  display: flex;
+  flex-direction: column;
+}
+
+.service-card h3 {
+  font-size: 1.18rem;
+  margin-bottom: 6px;
+}
+
+.service-card--wide h3 {
+  font-size: 1.4rem;
+}
+
+.service-card p {
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.service-meta {
+  margin-top: 14px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--muted) 85%, transparent);
+}
+
+@media (max-width: 1100px) {
+  .services-bento {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .services-bento {
+    grid-template-columns: 1fr;
+  }
+
+  .services-bento .service-card:nth-child(1),
+  .services-bento .service-card:nth-child(6) {
+    grid-column: span 1;
+  }
+
+  .service-card--wide {
+    flex-direction: column;
+  }
+}
+
+/* ── Toque cercano: sombras más suaves + foto de perfil ──── */
+
+.theme-peumatek .card {
+  box-shadow: 0 10px 30px rgba(8, 12, 20, 0.26);
+}
+
+.about-avatar--photo {
+  object-fit: cover;
+  background: var(--surface-muted);
+}
+
 .site-footer {
   padding: 42px 0;
   border-top: 1px solid var(--border);
@@ -814,6 +1089,279 @@ textarea {
   min-height: 70vh;
   display: grid;
   align-items: center;
+}
+
+/* ── Hero mock tags ──────────────────────────────────── */
+
+.hero__mock-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.hero__mock-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent, var(--primary)) 12%, transparent);
+  color: var(--accent, var(--primary));
+  border: 1px solid color-mix(in srgb, var(--accent, var(--primary)) 28%, transparent);
+}
+
+/* ── Header CTA ───────────────────────────────────────── */
+
+.header-cta {
+  white-space: nowrap;
+  font-size: 0.88rem;
+  min-height: 38px;
+  padding: 0 16px;
+}
+
+/* ── About module ─────────────────────────────────────── */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.about-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.about-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  display: grid;
+  place-items: center;
+  background: var(--primary);
+  color: var(--primary-contrast);
+  font-weight: 900;
+  font-size: 1.4rem;
+}
+
+.about-profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.about-profile-info strong {
+  font-size: 1.1rem;
+}
+
+.about-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.about-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.about-intro {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+
+.about-content .section-header {
+  margin-bottom: 24px;
+}
+
+/* ── WorkProcess module ──────────────────────────────── */
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 12px;
+}
+
+.process-card {
+  position: relative;
+}
+
+.process-step-num {
+  display: block;
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  margin-bottom: 12px;
+  color: color-mix(in srgb, var(--primary) 50%, transparent);
+}
+
+/* ── Footer social ────────────────────────────────────── */
+
+.footer-social {
+  display: flex;
+  gap: 14px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.footer-social a {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.footer-social a:hover {
+  color: var(--primary);
+}
+
+.footer-tagline {
+  color: var(--primary);
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-top: 8px;
+}
+
+/* ── Portfolio module ─────────────────────────────────── */
+
+.portfolio-subsection {
+  margin-top: 52px;
+}
+
+.subsection-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 800;
+  color: var(--muted);
+  margin: 0 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.subsection-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.app-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.app-icon-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--primary) 12%, var(--surface-muted));
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  font-size: 1.7rem;
+}
+
+.app-status {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.74rem;
+  font-weight: 800;
+  border-radius: 999px;
+  padding: 5px 11px;
+}
+
+.app-status--published {
+  background: color-mix(in srgb, #22c55e 14%, transparent);
+  color: #15803d;
+}
+
+.app-status--in-review {
+  background: color-mix(in srgb, #f59e0b 14%, transparent);
+  color: #b45309;
+}
+
+.app-status--in-development {
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
+  color: var(--primary);
+}
+
+.app-status--coming-soon {
+  background: color-mix(in srgb, var(--muted) 16%, transparent);
+  color: var(--muted);
+}
+
+.app-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.btn-placeholder {
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--muted);
+  border: 1px dashed var(--border);
+}
+
+.case-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 10px;
+  color: color-mix(in srgb, var(--primary) 45%, transparent);
+}
+
+.case-areas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0 4px;
+}
+
+.case-area {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--primary) 8%, var(--surface-muted));
+  color: var(--primary);
+  border: 1px solid color-mix(in srgb, var(--primary) 22%, transparent);
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.tech-tag {
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--surface-muted);
+  color: var(--muted);
+  border: 1px solid var(--border);
 }
 
 @media (max-width: 900px) {
@@ -852,4 +1400,601 @@ textarea {
   .pricing-card--highlighted {
     transform: none;
   }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-profile {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .about-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .process-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .header-cta {
+    display: none;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   PeumaTek — Identidad visual de marca (scope: .theme-peumatek)
+   Red de nodos = peumo / ramas / circuitos / conexiones.
+   ════════════════════════════════════════════════════════════ */
+
+.theme-peumatek {
+  --font-display: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+.theme-peumatek body {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+.theme-peumatek h1,
+.theme-peumatek h2,
+.theme-peumatek h3,
+.theme-peumatek .brand,
+.theme-peumatek .price,
+.theme-peumatek .subsection-label {
+  font-family: var(--font-display);
+}
+
+.theme-peumatek h1,
+.theme-peumatek h2 {
+  letter-spacing: -0.03em;
+}
+
+/* Palabra clave del título en degradado verde → naranja */
+.theme-peumatek .text-gradient {
+  background: linear-gradient(100deg, var(--primary) 10%, var(--accent) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Eyebrow como "nodo" (pill con punto pulsante) */
+.theme-peumatek .eyebrow--node {
+  align-items: center;
+  gap: 9px;
+  padding: 6px 15px 6px 11px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--primary) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary) 26%, transparent);
+  color: var(--text);
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.theme-peumatek .eyebrow--node::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+  animation: pt-pulse 2.6s ease-in-out infinite;
+}
+
+@keyframes pt-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* ── Hero PeumaTek ─────────────────────────────────────────── */
+
+.hero--peumatek {
+  position: relative;
+  padding: 116px 0 96px;
+  isolation: isolate;
+}
+
+.hero--peumatek .hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: radial-gradient(circle, rgba(63, 166, 107, 0.12) 1px, transparent 1.5px);
+  background-size: 30px 30px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 55% 25%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 75% 65% at 55% 25%, #000 35%, transparent 100%);
+  opacity: 0.7;
+}
+
+.hero--peumatek .hero__glow {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+}
+
+.hero__glow--green {
+  width: 420px;
+  height: 420px;
+  background: var(--primary);
+  opacity: 0.30;
+  top: -130px;
+  left: -90px;
+}
+
+.hero__glow--orange {
+  width: 360px;
+  height: 360px;
+  background: var(--accent);
+  opacity: 0.20;
+  bottom: -120px;
+  right: -70px;
+}
+
+.hero--peumatek h1 {
+  font-size: clamp(2.5rem, 5.2vw, 4.3rem);
+  line-height: 1.03;
+  letter-spacing: -0.035em;
+}
+
+.hero--peumatek p {
+  font-size: 1.16rem;
+  max-width: 600px;
+}
+
+.hero__stack {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.hero__stack-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.hero__stack-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.hero__chip {
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 9px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.hero__chip:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  color: var(--text);
+}
+
+/* ── Constelación (visual del hero) ───────────────────────── */
+
+.hero--peumatek .hero__visual {
+  min-height: auto;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+.constellation {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  margin-inline: auto;
+  aspect-ratio: 1 / 1;
+}
+
+.constellation__lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.constellation__lines line {
+  stroke: color-mix(in srgb, var(--primary) 50%, transparent);
+  stroke-width: 0.35;
+  stroke-dasharray: 1.6 1.8;
+}
+
+.constellation__node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 15px 6px 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+}
+
+.constellation__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  flex: none;
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.constellation__icon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.constellation__node:nth-child(even) .constellation__icon {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.constellation__core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 128px;
+  height: 128px;
+  border-radius: 32px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, var(--surface), var(--surface-muted));
+  border: 1px solid color-mix(in srgb, var(--primary) 30%, var(--border));
+  box-shadow: 0 0 0 8px color-mix(in srgb, var(--primary) 7%, transparent), 0 26px 60px rgba(0, 0, 0, 0.45);
+  animation: pt-breathe 5s ease-in-out infinite;
+}
+
+.constellation__core img {
+  width: 92px;
+  height: 92px;
+  border-radius: 22px;
+  display: block;
+}
+
+@keyframes pt-breathe {
+  0%, 100% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--primary) 7%, transparent), 0 26px 60px rgba(0, 0, 0, 0.45); }
+  50% { box-shadow: 0 0 0 15px color-mix(in srgb, var(--primary) 4%, transparent), 0 26px 60px rgba(0, 0, 0, 0.45); }
+}
+
+/* ── Cards y botones con personalidad PeumaTek ────────────── */
+
+.theme-peumatek .card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.theme-peumatek .card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.theme-peumatek .card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--primary) 35%, var(--border));
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.38);
+}
+
+.theme-peumatek .card:hover::before {
+  opacity: 1;
+}
+
+.theme-peumatek .btn--primary {
+  box-shadow: 0 10px 26px color-mix(in srgb, var(--primary) 28%, transparent);
+}
+
+.theme-peumatek .btn--primary:hover {
+  box-shadow: 0 14px 34px color-mix(in srgb, var(--primary) 38%, transparent);
+}
+
+.theme-peumatek .process-step-num,
+.theme-peumatek .case-number {
+  background: linear-gradient(120deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (max-width: 900px) {
+  .hero--peumatek {
+    padding: 80px 0 64px;
+  }
+
+  .hero--peumatek .hero__visual {
+    margin-top: 24px;
+  }
+
+  .constellation {
+    max-width: 340px;
+  }
+
+  .constellation__core {
+    width: 104px;
+    height: 104px;
+    border-radius: 26px;
+  }
+
+  .constellation__core img {
+    width: 74px;
+    height: 74px;
+  }
+
+  .constellation__node {
+    font-size: 0.74rem;
+    padding: 5px 11px 5px 8px;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   Iconos de tecnologías (con tooltip) + iconos de redes sociales
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Tech chips: icono oficial + burbuja informativa ───────── */
+
+.tech-chip {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  cursor: default;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tech-chip__icon {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+.tech-chip:hover,
+.tech-chip:focus-visible {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--primary) 42%, var(--border));
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.32);
+  outline: none;
+}
+
+/* La burbuja */
+.tech-chip__tip,
+.social-icon-link__tip {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  width: max-content;
+  max-width: 230px;
+  padding: 10px 13px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  z-index: 10;
+}
+
+.tech-chip__tip {
+  display: grid;
+  gap: 3px;
+}
+
+.tech-chip__tip strong {
+  font-size: 0.85rem;
+  color: var(--text);
+  font-family: var(--font-display, inherit);
+}
+
+.tech-chip__tip span {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.social-icon-link__tip {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+/* Flecha de la burbuja */
+.tech-chip__tip::after,
+.social-icon-link__tip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--surface);
+}
+
+.tech-chip:hover .tech-chip__tip,
+.tech-chip:focus-visible .tech-chip__tip,
+.social-icon-link:hover .social-icon-link__tip,
+.social-icon-link:focus-visible .social-icon-link__tip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── Iconos de redes sociales (recoloreables vía mask) ─────── */
+
+.social-icon-link {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  transition: transform 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.social-icon {
+  width: 22px;
+  height: 22px;
+  background: currentColor;
+  -webkit-mask: var(--mask) center / contain no-repeat;
+  mask: var(--mask) center / contain no-repeat;
+}
+
+.social-icon-link:hover,
+.social-icon-link:focus-visible {
+  transform: translateY(-3px);
+  color: var(--primary);
+  border-color: color-mix(in srgb, var(--primary) 42%, var(--border));
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.32);
+  outline: none;
+}
+
+/* ════════════════════════════════════════════════════════════
+   DIFERENCIACIÓN DE MARCA — sistema propio (scope: .theme-peumatek)
+   1) Motivo del peumo (hexágono de la 'P' + fruto)
+   2) Contraste + aire + un color con intención
+   3) Microestados obsesivos
+   ════════════════════════════════════════════════════════════ */
+
+.theme-peumatek {
+  --peumo: var(--accent);
+}
+
+/* ── 1) Motivo del peumo: badges hexagonales ─────────────── */
+/* El hexágono replica la silueta de la 'P'. clip-path recorta la sombra,
+   así que el hover usa relleno + escala en vez de box-shadow. */
+.theme-peumatek .benefit-icon,
+.theme-peumatek .service-icon {
+  border: 0;
+  border-radius: 0;
+  clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+  background: color-mix(in srgb, var(--primary) 18%, transparent);
+}
+
+.theme-peumatek .service-card--wide .service-icon,
+.theme-peumatek .benefits--rich .benefit-card:nth-child(2) .benefit-icon {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  border: 0;
+}
+
+.theme-peumatek .benefit-card:hover .benefit-icon,
+.theme-peumatek .service-card:hover .service-icon {
+  transform: translateY(-2px) scale(1.06);
+  box-shadow: none;
+  background: color-mix(in srgb, var(--primary) 28%, transparent);
+}
+
+.theme-peumatek .service-card--wide:hover .service-icon,
+.theme-peumatek .benefits--rich .benefit-card:nth-child(2):hover .benefit-icon {
+  box-shadow: none;
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+/* Avatar de perfil también hexagonal (motivo coherente en lo humano) */
+.theme-peumatek .about-avatar {
+  border-radius: 0;
+  clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+}
+
+/* ── 2) Contraste + aire + un color con intención ────────── */
+.theme-peumatek .section {
+  padding: 94px 0;
+}
+
+.theme-peumatek .section-header {
+  margin-bottom: 46px;
+}
+
+.theme-peumatek h2 {
+  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+}
+
+.theme-peumatek .services-bento,
+.theme-peumatek .benefits-grid {
+  gap: 22px;
+}
+
+/* ── 3) Microestados obsesivos ───────────────────────────── */
+/* Press feedback en cards */
+.theme-peumatek .card:active {
+  transform: translateY(-1px);
+}
+
+/* Subrayado animado en navegación */
+.theme-peumatek .nav a {
+  position: relative;
+  padding-bottom: 3px;
+}
+
+.theme-peumatek .nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--primary);
+  transition: right 0.25s ease;
+}
+
+.theme-peumatek .nav a:hover::after,
+.theme-peumatek .nav a:focus-visible::after {
+  right: 0;
+}
+
+/* Foco cuidado en campos de formulario */
+.theme-peumatek input:focus,
+.theme-peumatek textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 18%, transparent);
+}
+
+/* Foco visible accesible en enlaces de navegación */
+.theme-peumatek .nav a:focus-visible {
+  outline: none;
+  color: var(--text);
 }
