@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { activeModules } from '../config/site.config';
+
+import Hero from '../modules/core/Hero.astro';
+import Benefits from '../modules/core/Benefits.astro';
+import Services from '../modules/core/Services.astro';
+import Pricing from '../modules/core/Pricing.astro';
+import Gallery from '../modules/core/Gallery.astro';
+import Testimonials from '../modules/core/Testimonials.astro';
+import Faq from '../modules/core/Faq.astro';
+import BusinessHours from '../modules/core/BusinessHours.astro';
+import Map from '../modules/core/Map.astro';
+import Contact from '../modules/core/Contact.astro';
+import SocialLinks from '../modules/core/SocialLinks.astro';
+import WhatsAppButton from '../modules/core/WhatsAppButton.astro';
+
+import GymPlans from '../modules/gym/GymPlans.astro';
+import GymClasses from '../modules/gym/GymClasses.astro';
+import GymSchedule from '../modules/gym/GymSchedule.astro';
+import Trainers from '../modules/gym/Trainers.astro';
+import TrialClass from '../modules/gym/TrialClass.astro';
+
+import Vehicles from '../modules/automotive/Vehicles.astro';
+import Financing from '../modules/automotive/Financing.astro';
+import TradeIn from '../modules/automotive/TradeIn.astro';
+import PurchaseProcess from '../modules/automotive/PurchaseProcess.astro';
+import TestDrive from '../modules/automotive/TestDrive.astro';
+
+const moduleRegistry = {
+  hero: Hero,
+  benefits: Benefits,
+  services: Services,
+  pricing: Pricing,
+  gallery: Gallery,
+  testimonials: Testimonials,
+  faq: Faq,
+  businessHours: BusinessHours,
+  map: Map,
+  contact: Contact,
+  socialLinks: SocialLinks,
+  gymPlans: GymPlans,
+  gymClasses: GymClasses,
+  gymSchedule: GymSchedule,
+  trainers: Trainers,
+  trialClass: TrialClass,
+  vehicles: Vehicles,
+  financing: Financing,
+  tradeIn: TradeIn,
+  purchaseProcess: PurchaseProcess,
+  testDrive: TestDrive
+};
+---
+<BaseLayout>
+  {activeModules.map((moduleKey) => {
+    const Module = moduleRegistry[moduleKey];
+    return Module ? <Module /> : null;
+  })}
+  <WhatsAppButton />
+</BaseLayout>

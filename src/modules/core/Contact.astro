@@ -1,0 +1,26 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import Button from '../shared/Button.astro';
+import { siteConfig } from '../../config/site.config';
+const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encodeURIComponent('Hola, quiero más información sobre ' + siteConfig.business.name)}`;
+---
+<section class="section section--contact" id="contacto">
+  <div class="container contact-grid">
+    <div>
+      <SectionHeader align="left" eyebrow="Contacto" title="Hablemos de lo que necesitas" description="Formulario base para captar consultas. En V1 puede enviarse a WhatsApp, servicio externo o endpoint propio más adelante." />
+      <div class="contact-info">
+        <p><strong>WhatsApp:</strong> {siteConfig.business.phone}</p>
+        <p><strong>Correo:</strong> {siteConfig.business.email}</p>
+        <p><strong>Dirección:</strong> {siteConfig.business.address}</p>
+      </div>
+      <Button href={whatsappUrl} target="_blank" label="Contactar por WhatsApp" />
+    </div>
+    <form class="card contact-form" action="/gracias" method="get">
+      <label>Nombre<input name="nombre" required placeholder="Tu nombre" /></label>
+      <label>Teléfono<input name="telefono" required placeholder="+56 9..." /></label>
+      <label>Correo<input name="email" type="email" placeholder="correo@ejemplo.cl" /></label>
+      <label>Mensaje<textarea name="mensaje" rows="4" placeholder="Cuéntanos qué necesitas"></textarea></label>
+      <button class="btn btn--primary" type="submit">Enviar consulta</button>
+    </form>
+  </div>
+</section>

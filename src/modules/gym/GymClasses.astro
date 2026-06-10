@@ -1,0 +1,19 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import { gymClasses } from '../../data/gym';
+---
+<section class="section section--muted" id="clases">
+  <div class="container">
+    <SectionHeader eyebrow="Clases" title="Clases disponibles" description="Módulo para mostrar clases, duración, nivel y descripción." />
+    <div class="grid grid--3">
+      {gymClasses.map((item) => (
+        <article class="card">
+          <span class="pill pill--soft">{item.duration}</span>
+          <h3>{item.name}</h3>
+          <p>{item.description}</p>
+          <p class="muted">Nivel: {item.level}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

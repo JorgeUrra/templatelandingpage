@@ -1,0 +1,18 @@
+---
+import Button from '../shared/Button.astro';
+import { trialClass } from '../../data/gym';
+import { siteConfig } from '../../config/site.config';
+const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encodeURIComponent('Hola, quiero agendar una clase de prueba')}`;
+---
+<section class="section" id="reserva">
+  <div class="container">
+    <div class="cta-box">
+      <div>
+        <span class="eyebrow">Conversión</span>
+        <h2>{trialClass.title}</h2>
+        <p>{trialClass.description}</p>
+      </div>
+      <Button href={whatsappUrl} target="_blank" label={trialClass.ctaText} />
+    </div>
+  </div>
+</section>

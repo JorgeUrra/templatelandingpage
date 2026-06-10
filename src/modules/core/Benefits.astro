@@ -1,0 +1,18 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import { benefits } from '../../data/core';
+---
+<section class="section" id="beneficios">
+  <div class="container">
+    <SectionHeader eyebrow="Beneficios" title="Por qué elegirnos" description="Argumentos claros para que el visitante entienda rápido el valor del negocio." />
+    <div class="grid grid--3">
+      {benefits.map((item) => (
+        <article class="card feature-card">
+          <div class="icon-badge">{item.icon}</div>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

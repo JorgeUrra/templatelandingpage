@@ -1,0 +1,17 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import { businessHours } from '../../data/core';
+---
+<section class="section" id="horarios">
+  <div class="container container--narrow">
+    <SectionHeader eyebrow="Horarios" title="Horario de atención" description="Módulo simple para horario general del negocio." />
+    <div class="card schedule-card">
+      {businessHours.map((item) => (
+        <div class="schedule-row">
+          <strong>{item.day}</strong>
+          <span>{item.hours}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

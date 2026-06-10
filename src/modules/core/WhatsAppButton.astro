@@ -1,0 +1,5 @@
+---
+import { siteConfig } from '../../config/site.config';
+const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encodeURIComponent('Hola, quiero más información sobre ' + siteConfig.business.name)}`;
+---
+<a class="whatsapp-float" href={whatsappUrl} target="_blank" aria-label="Contactar por WhatsApp">WhatsApp</a>

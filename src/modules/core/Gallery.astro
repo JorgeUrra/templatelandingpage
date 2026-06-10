@@ -1,0 +1,17 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import { gallery } from '../../data/core';
+---
+<section class="section section--muted" id="galeria">
+  <div class="container">
+    <SectionHeader eyebrow="Galería" title="Galería del negocio" description="Sección visual preparada para reemplazar por fotos reales entregadas por el cliente." />
+    <div class="gallery-grid">
+      {gallery.map((image, index) => (
+        <figure class="gallery-item">
+          <img src={image.src} alt={image.alt} loading="lazy" />
+          <figcaption>{image.category ?? `Imagen ${index + 1}`}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

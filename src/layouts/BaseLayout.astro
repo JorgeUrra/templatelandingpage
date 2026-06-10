@@ -1,0 +1,55 @@
+---
+import { siteConfig, activeTheme } from '../config/site.config';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title = siteConfig.seo.title, description = siteConfig.seo.description } = Astro.props;
+---
+<!doctype html>
+<html lang="es" class={activeTheme.className}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={siteConfig.seo.image} />
+    <meta name="theme-color" content={activeTheme.primary} />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a href="#inicio" class="brand" aria-label={siteConfig.business.name}>
+          <span class="brand__mark">{siteConfig.business.logoText}</span>
+          <span>{siteConfig.business.name}</span>
+        </a>
+        <nav class="nav">
+          <a href="#beneficios">Beneficios</a>
+          {siteConfig.businessType === 'gym' && <a href="#planes-gimnasio">Planes</a>}
+          {siteConfig.businessType === 'automotive' && <a href="#vehiculos">Vehículos</a>}
+          <a href="#faq">FAQ</a>
+          <a href="#contacto">Contacto</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <strong>{siteConfig.business.name}</strong>
+          <p>{siteConfig.business.description}</p>
+        </div>
+        <div>
+          <p>{siteConfig.business.address}</p>
+          <p>{siteConfig.business.email}</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

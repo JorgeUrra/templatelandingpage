@@ -1,0 +1,18 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import { purchaseProcess } from '../../data/automotive';
+---
+<section class="section section--muted" id="proceso-compra">
+  <div class="container">
+    <SectionHeader eyebrow="Proceso" title="Proceso de compra simple" description="Módulo de confianza para explicar el camino desde la consulta hasta la entrega." />
+    <div class="grid grid--4">
+      {purchaseProcess.map((item) => (
+        <article class="card process-card">
+          <span class="process-step">{item.step}</span>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

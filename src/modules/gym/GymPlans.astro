@@ -1,0 +1,26 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import Button from '../shared/Button.astro';
+import { gymPlans } from '../../data/gym';
+import { siteConfig } from '../../config/site.config';
+const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encodeURIComponent('Hola, quiero consultar por los planes del gimnasio')}`;
+---
+<section class="section" id="planes-gimnasio">
+  <div class="container">
+    <SectionHeader eyebrow="Planes" title="Planes de entrenamiento" description="Módulo específico para gimnasios, boxes, estudios y centros de entrenamiento." />
+    <div class="grid grid--3 pricing-grid">
+      {gymPlans.map((plan) => (
+        <article class:list={["card", "pricing-card", plan.highlighted && "pricing-card--highlighted"]}>
+          {plan.highlighted && <span class="pill">Recomendado</span>}
+          <h3>{plan.name}</h3>
+          <div class="price">{plan.price}</div>
+          <p class="muted">{plan.period}</p>
+          <ul class="check-list">
+            {plan.features.map((feature) => <li>{feature}</li>)}
+          </ul>
+          <Button href={whatsappUrl} target="_blank" label="Consultar plan" variant={plan.highlighted ? 'primary' : 'secondary'} />
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

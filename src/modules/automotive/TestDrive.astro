@@ -1,0 +1,18 @@
+---
+import Button from '../shared/Button.astro';
+import { testDrive } from '../../data/automotive';
+import { siteConfig } from '../../config/site.config';
+const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encodeURIComponent('Hola, quiero agendar una visita o prueba de manejo')}`;
+---
+<section class="section" id="agendar-visita">
+  <div class="container">
+    <div class="cta-box">
+      <div>
+        <span class="eyebrow">Agendamiento</span>
+        <h2>{testDrive.title}</h2>
+        <p>{testDrive.description}</p>
+      </div>
+      <Button href={whatsappUrl} target="_blank" label={testDrive.ctaText} />
+    </div>
+  </div>
+</section>

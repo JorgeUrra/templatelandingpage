@@ -1,0 +1,18 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import { testimonials } from '../../data/core';
+---
+<section class="section" id="testimonios">
+  <div class="container">
+    <SectionHeader eyebrow="Testimonios" title="Confianza y validación" description="Módulo reutilizable para opiniones de clientes o reseñas manuales." />
+    <div class="grid grid--3">
+      {testimonials.map((item) => (
+        <article class="card testimonial-card">
+          <div class="stars">{'★'.repeat(item.rating ?? 5)}</div>
+          <p>“{item.comment}”</p>
+          <strong>{item.name}</strong>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

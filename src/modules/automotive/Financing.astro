@@ -1,0 +1,25 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import Button from '../shared/Button.astro';
+import { financing } from '../../data/automotive';
+import { siteConfig } from '../../config/site.config';
+const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encodeURIComponent('Hola, quiero solicitar información de financiamiento')}`;
+---
+<section class="section section--muted" id="financiamiento">
+  <div class="container split-grid">
+    <div>
+      <SectionHeader align="left" eyebrow="Financiamiento" title={financing.title} description={financing.description} />
+      <ul class="check-list">
+        {financing.features.map((item) => <li>{item}</li>)}
+      </ul>
+      <Button href={whatsappUrl} target="_blank" label={financing.ctaText} />
+    </div>
+    <form class="card contact-form" action="/gracias" method="get">
+      <label>Nombre<input name="nombre" required placeholder="Tu nombre" /></label>
+      <label>Teléfono<input name="telefono" required placeholder="+56 9..." /></label>
+      <label>Vehículo de interés<input name="vehiculo" placeholder="Ej: Toyota RAV4 2020" /></label>
+      <label>Mensaje<textarea name="mensaje" rows="3" placeholder="Cuéntanos qué alternativa buscas"></textarea></label>
+      <button class="btn btn--primary" type="submit">Enviar solicitud</button>
+    </form>
+  </div>
+</section>

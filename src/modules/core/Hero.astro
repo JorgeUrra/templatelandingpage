@@ -1,0 +1,38 @@
+---
+import { siteConfig } from '../../config/site.config';
+import Button from '../shared/Button.astro';
+
+const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encodeURIComponent('Hola, quiero más información sobre ' + siteConfig.business.name)}`;
+const actions = {
+  whatsapp: whatsappUrl,
+  contact: '#contacto',
+  booking: '#reserva',
+  vehicles: '#vehiculos'
+};
+---
+<section class="hero" id="inicio">
+  <div class="container hero__grid">
+    <div class="hero__content">
+      <span class="eyebrow">{siteConfig.hero.eyebrow}</span>
+      <h1>{siteConfig.hero.title}</h1>
+      <p>{siteConfig.hero.subtitle}</p>
+      <div class="hero__actions">
+        <Button href={actions[siteConfig.hero.primaryAction]} label={siteConfig.hero.primaryText} />
+        {siteConfig.hero.secondaryText && siteConfig.hero.secondaryAction && (
+          <Button href={actions[siteConfig.hero.secondaryAction]} label={siteConfig.hero.secondaryText} variant="secondary" />
+        )}
+      </div>
+      <div class="hero__meta">
+        <span>{siteConfig.business.city}</span>
+        <span>{siteConfig.business.email}</span>
+      </div>
+    </div>
+    <div class="hero__visual" aria-label="Visual del negocio">
+      <div class="hero__mock">
+        <div class="hero__logo">{siteConfig.business.logoText}</div>
+        <h3>{siteConfig.business.name}</h3>
+        <p>{siteConfig.business.slogan}</p>
+      </div>
+    </div>
+  </div>
+</section>

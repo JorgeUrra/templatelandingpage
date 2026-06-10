@@ -1,0 +1,35 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import Button from '../shared/Button.astro';
+import { vehicles } from '../../data/automotive';
+import { siteConfig } from '../../config/site.config';
+---
+<section class="section" id="vehiculos">
+  <div class="container">
+    <SectionHeader eyebrow="Stock destacado" title="Vehículos destacados" description="Módulo para mostrar unidades destacadas sin convertir la landing en inventario completo." />
+    <div class="grid grid--3">
+      {vehicles.map((vehicle) => {
+        const message = `Hola, quiero consultar por el ${vehicle.brand} ${vehicle.model} ${vehicle.year}`;
+        const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encodeURIComponent(message)}`;
+        return (
+          <article class="card vehicle-card">
+            <div class="vehicle-image">
+              <span>{vehicle.brand}</span>
+            </div>
+            <div class="vehicle-status">{vehicle.status}</div>
+            <h3>{vehicle.brand} {vehicle.model}</h3>
+            <p class="muted">{vehicle.version}</p>
+            <div class="price">{vehicle.price}</div>
+            <div class="vehicle-specs">
+              <span>{vehicle.year}</span>
+              <span>{vehicle.mileage}</span>
+              <span>{vehicle.fuel}</span>
+              <span>{vehicle.transmission}</span>
+            </div>
+            <Button href={whatsappUrl} target="_blank" label="Consultar este vehículo" />
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>

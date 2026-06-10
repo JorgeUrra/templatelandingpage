@@ -1,0 +1,17 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import { services } from '../../data/core';
+---
+<section class="section section--muted" id="servicios">
+  <div class="container">
+    <SectionHeader eyebrow="Servicios" title="Servicios principales" description="Módulo transversal para explicar qué ofrece cada negocio." />
+    <div class="grid grid--3">
+      {services.map((service) => (
+        <article class="card">
+          <h3>{service.title}</h3>
+          <p>{service.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

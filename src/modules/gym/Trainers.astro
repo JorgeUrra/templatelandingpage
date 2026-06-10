@@ -1,0 +1,21 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import { trainers } from '../../data/gym';
+---
+<section class="section section--muted" id="profesores">
+  <div class="container">
+    <SectionHeader eyebrow="Equipo" title="Profesores destacados" description="Módulo para presentar equipo, coachs o profesionales." />
+    <div class="grid grid--2">
+      {trainers.map((trainer) => (
+        <article class="card team-card">
+          <div class="avatar">{trainer.name.split(' ').map((part) => part[0]).join('').slice(0,2)}</div>
+          <div>
+            <h3>{trainer.name}</h3>
+            <p class="muted">{trainer.role}</p>
+            <p>{trainer.description}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

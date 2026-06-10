@@ -1,0 +1,20 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import { tradeIn } from '../../data/automotive';
+---
+<section class="section" id="parte-de-pago">
+  <div class="container split-grid">
+    <div>
+      <SectionHeader align="left" eyebrow="Parte de pago" title={tradeIn.title} description={tradeIn.description} />
+      <p class="section-copy">Este módulo captura interesados que quieren entregar su vehículo como parte de pago.</p>
+    </div>
+    <form class="card contact-form" action="/gracias" method="get">
+      <label>Marca<input name="marca" placeholder="Ej: Kia" /></label>
+      <label>Modelo<input name="modelo" placeholder="Ej: Sportage" /></label>
+      <label>Año<input name="anio" placeholder="Ej: 2018" /></label>
+      <label>Kilometraje<input name="kilometraje" placeholder="Ej: 95.000 km" /></label>
+      <label>Teléfono<input name="telefono" required placeholder="+56 9..." /></label>
+      <button class="btn btn--primary" type="submit">Solicitar evaluación</button>
+    </form>
+  </div>
+</section>

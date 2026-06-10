@@ -1,0 +1,17 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import Button from '../shared/Button.astro';
+import { siteConfig } from '../../config/site.config';
+---
+<section class="section section--muted" id="ubicacion">
+  <div class="container map-grid">
+    <div>
+      <SectionHeader align="left" eyebrow="Ubicación" title="Encuéntranos fácilmente" description={siteConfig.business.address} />
+      <p class="section-copy">{siteConfig.business.city}</p>
+      <Button href={siteConfig.map.directionsUrl} target="_blank" label="Cómo llegar" />
+    </div>
+    <div class="map-frame">
+      <iframe src={siteConfig.map.embedUrl} loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa ubicación"></iframe>
+    </div>
+  </div>
+</section>

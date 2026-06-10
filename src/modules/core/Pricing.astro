@@ -1,0 +1,28 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import Button from '../shared/Button.astro';
+import { pricingPlans } from '../../data/core';
+import { siteConfig } from '../../config/site.config';
+
+const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encodeURIComponent('Hola, quiero consultar por un plan de landing page')}`;
+---
+<section class="section" id="planes">
+  <div class="container">
+    <SectionHeader eyebrow="Planes" title="Planes configurables" description="Este módulo sirve para membresías, servicios, paquetes o precios referenciales." />
+    <div class="grid grid--3 pricing-grid">
+      {pricingPlans.map((plan) => (
+        <article class:list={["card", "pricing-card", plan.highlighted && "pricing-card--highlighted"]}>
+          {plan.highlighted && <span class="pill">Más solicitado</span>}
+          <h3>{plan.name}</h3>
+          <div class="price">{plan.price}</div>
+          <p class="muted">{plan.period}</p>
+          <p>{plan.description}</p>
+          <ul class="check-list">
+            {plan.features.map((feature) => <li>{feature}</li>)}
+          </ul>
+          <Button href={whatsappUrl} label={plan.ctaText} variant={plan.highlighted ? 'primary' : 'secondary'} />
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

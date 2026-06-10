@@ -1,0 +1,17 @@
+---
+import SectionHeader from '../shared/SectionHeader.astro';
+import { gymSchedule } from '../../data/gym';
+---
+<section class="section" id="horario-clases">
+  <div class="container container--narrow">
+    <SectionHeader eyebrow="Horario de clases" title="Agenda semanal" description="Horario simple de clases. En V1 es contenido estático configurable." />
+    <div class="card schedule-card">
+      {gymSchedule.map((item) => (
+        <div class="schedule-row">
+          <strong>{item.day}</strong>
+          <span>{item.time} · {item.className}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
