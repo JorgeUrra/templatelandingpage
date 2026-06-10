@@ -1,6 +1,16 @@
 ---
 import SectionHeader from '../shared/SectionHeader.astro';
 import { siteConfig } from '../../config/site.config';
+
+const labels: Record<string, string> = {
+  instagram: 'Instagram',
+  facebook: 'Facebook',
+  tiktok: 'TikTok',
+  website: 'Sitio web',
+  github: 'GitHub',
+  linkedin: 'LinkedIn',
+};
+
 const links = Object.entries(siteConfig.social).filter(([, value]) => Boolean(value));
 ---
 {links.length > 0 && (
@@ -9,7 +19,16 @@ const links = Object.entries(siteConfig.social).filter(([, value]) => Boolean(va
       <SectionHeader eyebrow="Redes" title="También puedes encontrarnos aquí" />
       <div class="social-list">
         {links.map(([name, url]) => (
-          <a href={url as string} target="_blank" class="social-link">{name}</a>
+          <a
+            href={url as string}
+            target="_blank"
+            rel="noopener"
+            class="social-icon-link"
+            aria-label={labels[name] ?? name}
+          >
+            <span class="social-icon" style={`--mask:url(/images/social/${name}.svg)`}></span>
+            <span class="social-icon-link__tip" role="tooltip">{labels[name] ?? name}</span>
+          </a>
         ))}
       </div>
     </div>

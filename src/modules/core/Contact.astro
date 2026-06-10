@@ -13,14 +13,19 @@ const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encode
         <p><strong>Correo:</strong> {siteConfig.business.email}</p>
         <p><strong>Dirección:</strong> {siteConfig.business.address}</p>
       </div>
-      <Button href={whatsappUrl} target="_blank" label="Contactar por WhatsApp" />
+      <Button href={whatsappUrl} target="_blank" label="Contactar por WhatsApp" variant="whatsapp" />
     </div>
     <form class="card contact-form" action="/gracias" method="get">
       <label>Nombre<input name="nombre" required placeholder="Tu nombre" /></label>
       <label>Teléfono<input name="telefono" required placeholder="+56 9..." /></label>
       <label>Correo<input name="email" type="email" placeholder="correo@ejemplo.cl" /></label>
       <label>Mensaje<textarea name="mensaje" rows="4" placeholder="Cuéntanos qué necesitas"></textarea></label>
-      <button class="btn btn--primary" type="submit">Enviar consulta</button>
+      <button class="btn btn--primary" type="submit">
+        <span>Enviar consulta</span>
+        <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
+      </button>
     </form>
   </div>
 </section>
