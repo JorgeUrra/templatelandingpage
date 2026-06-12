@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "deploy:pages": "npm run build && npx wrangler pages deploy dist",
+    "deploy:worker": "npx wrangler deploy"
   },
   "dependencies": {
     "@astrojs/sitemap": "latest",

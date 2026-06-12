@@ -32,6 +32,44 @@ Luego abrir:
 http://localhost:4321
 ```
 
+## Despliegue en Cloudflare
+
+Este proyecto es un sitio estatico Astro. El build genera la carpeta:
+
+```txt
+dist
+```
+
+Para Cloudflare Pages conectado a GitHub, usa esta configuracion:
+
+```txt
+Framework preset: Astro
+Build command: npm run build
+Build output directory: dist
+Deploy command: dejar vacio
+```
+
+Si Cloudflare te pide solo un comando de deploy y estas usando Wrangler, usa uno de estos:
+
+```bash
+npm ci && npm run deploy:worker
+```
+
+o, si quieres desplegar explicitamente como Pages con Wrangler:
+
+```bash
+npm ci && npm run deploy:pages
+```
+
+Para correrlo localmente cuando ya tienes `node_modules` instalado:
+
+```bash
+npm run deploy:worker
+npm run deploy:pages
+```
+
+El comando `npx wrangler deploy` despliega como Workers Static Assets. Para ese caso el archivo `wrangler.toml` ya indica que debe ejecutar `npm run build` y publicar `dist`.
+
 ## Cambiar demo activa
 
 Edita:
