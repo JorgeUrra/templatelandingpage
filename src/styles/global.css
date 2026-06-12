@@ -3208,18 +3208,27 @@ html.theme-peumatek {
 }
 
 .lightbox__stage {
+  --zoom: 1;
+  --pan-x: 0px;
+  --pan-y: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: min(100%, 520px);
   min-width: 0;
-  touch-action: pan-y;
+  overflow: hidden;
+  border-radius: 32px;
+  touch-action: none;
   user-select: none;
   cursor: grab;
 }
 
 .lightbox__stage.is-swiping {
   cursor: grabbing;
+}
+
+.lightbox__stage[data-zoomed="true"] {
+  cursor: move;
 }
 
 .lightbox__stage img {
@@ -3230,6 +3239,14 @@ html.theme-peumatek {
   background: #0a111e;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
   display: block;
+  transform: translate3d(var(--pan-x), var(--pan-y), 0) scale(var(--zoom));
+  transform-origin: center;
+  transition: transform 0.18s ease;
+  will-change: transform;
+}
+
+.lightbox__stage.is-swiping img {
+  transition: none;
 }
 
 .lightbox__stage img[hidden] {
@@ -3286,6 +3303,41 @@ html.theme-peumatek {
   justify-content: center;
 }
 
+.lightbox__tools {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(12, 18, 32, 0.72);
+  color: #fff;
+  backdrop-filter: blur(10px);
+}
+
+.lightbox__tools button {
+  min-width: 40px;
+  height: 36px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: inherit;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.lightbox__tools button:hover,
+.lightbox__tools button:focus-visible {
+  background: rgba(255, 255, 255, 0.16);
+  outline: none;
+}
+
+.lightbox__tools [data-zoom-reset] {
+  min-width: 58px;
+  color: var(--accent);
+}
+
 .lightbox__dot {
   width: 11px;
   height: 11px;
@@ -3322,7 +3374,17 @@ html.theme-peumatek {
 
   .lightbox__stage img {
     max-width: min(100%, 330px);
-    max-height: 72vh;
+    max-height: 70vh;
+  }
+
+  .lightbox__tools {
+    gap: 4px;
+    padding: 5px;
+  }
+
+  .lightbox__tools button {
+    min-width: 38px;
+    height: 34px;
   }
 
   .lightbox__nav {

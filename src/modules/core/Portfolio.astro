@@ -138,6 +138,11 @@ import { lineIcons } from '../../data/icons';
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
         </button>
       </div>
+      <div class="lightbox__tools" aria-label="Controles de zoom">
+        <button type="button" data-zoom-out aria-label="Alejar">-</button>
+        <button type="button" data-zoom-reset aria-label="Restablecer zoom">100%</button>
+        <button type="button" data-zoom-in aria-label="Acercar">+</button>
+      </div>
       <div class="lightbox__dots"></div>
     </div>
   </div>
@@ -150,21 +155,79 @@ import { lineIcons } from '../../data/icons';
     const dotsWrap = lb.querySelector('.lightbox__dots');
     const prevBtn = lb.querySelector('[data-prev]');
     const nextBtn = lb.querySelector('[data-next]');
+    const zoomOutBtn = lb.querySelector('[data-zoom-out]');
+    const zoomResetBtn = lb.querySelector('[data-zoom-reset]');
+    const zoomInBtn = lb.querySelector('[data-zoom-in]');
     let shots = [];
     let idx = 0;
     let lastFocus = null;
     let swipeStartX = 0;
     let swipeStartY = 0;
-    let swipePointerId = null;
-    let isSwiping = false;
+    let panStartX = 0;
+    let panStartY = 0;
+    let panOriginX = 0;
+    let panOriginY = 0;
+    let panX = 0;
+    let panY = 0;
+    let zoom = 1;
+    let pinchStartDistance = 0;
+    let pinchStartZoom = 1;
+    let lastTapAt = 0;
+    let lastTapX = 0;
+    let lastTapY = 0;
+    let suppressTap = false;
+    const activePointers = new Map();
+    const maxZoom = 3.5;
+
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+    const activeImage = () => stage.querySelector('img:not([hidden])');
+
+    const clampPan = () => {
+      const image = activeImage();
+      if (!image || zoom <= 1.01) {
+        panX = 0;
+        panY = 0;
+        return;
+      }
+
+      const stageRect = stage.getBoundingClientRect();
+      const maxX = Math.max(0, ((image.offsetWidth * zoom) - stageRect.width) / 2 + 18);
+      const maxY = Math.max(0, ((image.offsetHeight * zoom) - stageRect.height) / 2 + 18);
+      panX = clamp(panX, -maxX, maxX);
+      panY = clamp(panY, -maxY, maxY);
+    };
+
+    const applyZoom = () => {
+      clampPan();
+      stage.style.setProperty('--zoom', zoom.toFixed(2));
+      stage.style.setProperty('--pan-x', `${panX}px`);
+      stage.style.setProperty('--pan-y', `${panY}px`);
+      stage.dataset.zoomed = String(zoom > 1.01);
+      zoomResetBtn.textContent = `${Math.round(zoom * 100)}%`;
+    };
+
+    const setZoom = (value, resetPan = false) => {
+      zoom = clamp(value, 1, maxZoom);
+      if (resetPan || zoom <= 1.01) {
+        panX = 0;
+        panY = 0;
+      }
+      applyZoom();
+    };
+
+    const resetZoom = () => {
+      setZoom(1, true);
+    };
 
     const update = () => {
       stage.querySelectorAll('img').forEach((im, i) => { im.hidden = i !== idx; });
       dotsWrap.querySelectorAll('button').forEach((d, i) => d.setAttribute('aria-current', String(i === idx)));
+      resetZoom();
     };
 
     const render = () => {
-      stage.innerHTML = shots.map((src) => `<img src="${src}" alt="Captura de la aplicación" />`).join('');
+      stage.innerHTML = shots.map((src) => `<img src="${src}" alt="Captura de la aplicacion" draggable="false" />`).join('');
       dotsWrap.innerHTML = shots.map((_, i) => `<button type="button" class="lightbox__dot" aria-label="Ir a captura ${i + 1}"></button>`).join('');
       dotsWrap.querySelectorAll('button').forEach((d, i) => d.addEventListener('click', () => { idx = i; update(); }));
       const multi = shots.length > 1;
@@ -196,36 +259,108 @@ import { lineIcons } from '../../data/icons';
       update();
     };
 
-    const startSwipe = (event) => {
-      if (shots.length < 2 || !event.isPrimary) return;
-      swipeStartX = event.clientX;
-      swipeStartY = event.clientY;
-      swipePointerId = event.pointerId;
-      isSwiping = true;
-      stage.classList.add('is-swiping');
-      stage.setPointerCapture?.(event.pointerId);
+    const pointerDistance = () => {
+      const points = Array.from(activePointers.values());
+      if (points.length < 2) return 0;
+      return Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y);
     };
 
-    const endSwipe = (event) => {
-      if (!isSwiping || event.pointerId !== swipePointerId) return;
-      const deltaX = event.clientX - swipeStartX;
-      const deltaY = event.clientY - swipeStartY;
-      const isHorizontalSwipe = Math.abs(deltaX) > 44 && Math.abs(deltaX) > Math.abs(deltaY) * 1.25;
+    const prepareSinglePointer = (point) => {
+      swipeStartX = point.x;
+      swipeStartY = point.y;
+      panStartX = point.x;
+      panStartY = point.y;
+      panOriginX = panX;
+      panOriginY = panY;
+    };
 
-      if (isHorizontalSwipe) {
-        go(deltaX < 0 ? 1 : -1);
+    const startGesture = (event) => {
+      if (event.button !== undefined && event.button !== 0) return;
+      activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+      stage.setPointerCapture?.(event.pointerId);
+      stage.classList.add('is-swiping');
+
+      if (activePointers.size === 1) {
+        prepareSinglePointer({ x: event.clientX, y: event.clientY });
+      } else if (activePointers.size === 2) {
+        pinchStartDistance = pointerDistance();
+        pinchStartZoom = zoom;
+      }
+    };
+
+    const moveGesture = (event) => {
+      if (!activePointers.has(event.pointerId)) return;
+      activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+
+      if (activePointers.size >= 2) {
+        event.preventDefault();
+        const distance = pointerDistance();
+        if (pinchStartDistance > 0 && distance > 0) {
+          setZoom(pinchStartZoom * (distance / pinchStartDistance));
+        }
+        return;
       }
 
-      isSwiping = false;
-      swipePointerId = null;
-      stage.classList.remove('is-swiping');
-      stage.releasePointerCapture?.(event.pointerId);
+      if (zoom > 1.01) {
+        event.preventDefault();
+        const point = activePointers.get(event.pointerId);
+        panX = panOriginX + point.x - panStartX;
+        panY = panOriginY + point.y - panStartY;
+        applyZoom();
+      }
     };
 
-    const cancelSwipe = () => {
-      isSwiping = false;
-      swipePointerId = null;
+    const endGesture = (event) => {
+      const point = activePointers.get(event.pointerId);
+      const wasSinglePointer = activePointers.size === 1;
+
+      if (point && wasSinglePointer && zoom <= 1.01) {
+        const deltaX = point.x - swipeStartX;
+        const deltaY = point.y - swipeStartY;
+        const isHorizontalSwipe = Math.abs(deltaX) > 44 && Math.abs(deltaX) > Math.abs(deltaY) * 1.25;
+
+        if (isHorizontalSwipe) {
+          suppressTap = true;
+          go(deltaX < 0 ? 1 : -1);
+        }
+      }
+
+      activePointers.delete(event.pointerId);
+      stage.releasePointerCapture?.(event.pointerId);
+
+      if (activePointers.size === 1) {
+        prepareSinglePointer(Array.from(activePointers.values())[0]);
+      } else {
+        stage.classList.remove('is-swiping');
+        pinchStartDistance = 0;
+      }
+    };
+
+    const cancelGesture = () => {
+      activePointers.clear();
       stage.classList.remove('is-swiping');
+      pinchStartDistance = 0;
+    };
+
+    const handleTapZoom = (event) => {
+      if (suppressTap) {
+        suppressTap = false;
+        return;
+      }
+
+      const now = Date.now();
+      const closeToLastTap = Math.abs(event.clientX - lastTapX) < 28 && Math.abs(event.clientY - lastTapY) < 28;
+
+      if (now - lastTapAt < 320 && closeToLastTap) {
+        event.preventDefault();
+        setZoom(zoom > 1.01 ? 1 : 2.2, true);
+        lastTapAt = 0;
+        return;
+      }
+
+      lastTapAt = now;
+      lastTapX = event.clientX;
+      lastTapY = event.clientY;
     };
 
     document.querySelectorAll('[data-shots]').forEach((t) => {
@@ -235,15 +370,23 @@ import { lineIcons } from '../../data/icons';
     });
     prevBtn.addEventListener('click', () => go(-1));
     nextBtn.addEventListener('click', () => go(1));
-    stage.addEventListener('pointerdown', startSwipe);
-    stage.addEventListener('pointerup', endSwipe);
-    stage.addEventListener('pointercancel', cancelSwipe);
+    zoomOutBtn.addEventListener('click', () => setZoom(zoom - 0.45));
+    zoomResetBtn.addEventListener('click', resetZoom);
+    zoomInBtn.addEventListener('click', () => setZoom(zoom + 0.45));
+    stage.addEventListener('pointerdown', startGesture);
+    stage.addEventListener('pointermove', moveGesture);
+    stage.addEventListener('pointerup', endGesture);
+    stage.addEventListener('pointercancel', cancelGesture);
+    stage.addEventListener('click', handleTapZoom);
     lb.querySelectorAll('[data-close]').forEach((c) => c.addEventListener('click', close));
     document.addEventListener('keydown', (e) => {
       if (lb.hidden) return;
       if (e.key === 'Escape') close();
       else if (e.key === 'ArrowLeft') go(-1);
       else if (e.key === 'ArrowRight') go(1);
+      else if (e.key === '+' || e.key === '=') setZoom(zoom + 0.45);
+      else if (e.key === '-') setZoom(zoom - 0.45);
+      else if (e.key === '0') resetZoom();
     });
   }
 </script>
