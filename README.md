@@ -70,6 +70,20 @@ npm run deploy:pages
 
 El comando `npx wrangler deploy` despliega como Workers Static Assets. Para ese caso el archivo `wrangler.toml` ya indica que debe ejecutar `npm run build` y publicar `dist`.
 
+### Envio de formulario
+
+El formulario de contacto se procesa en el Worker mediante `/api/contact` y envia el correo usando Resend.
+
+En Cloudflare configura estos secretos/variables del Worker:
+
+```txt
+RESEND_API_KEY=tu_api_key_de_resend
+CONTACT_TO_EMAIL=jorge.urra.merino@gmail.com
+CONTACT_FROM_EMAIL=PeumaTek <contacto@tu-dominio-verificado.cl>
+```
+
+`CONTACT_TO_EMAIL` ya queda definido en `wrangler.toml`; `RESEND_API_KEY` debe guardarse como secreto, no en el repositorio. Para `CONTACT_FROM_EMAIL`, usa un remitente validado en Resend. Mientras pruebas, Resend permite usar `PeumaTek <onboarding@resend.dev>` con las limitaciones de su entorno de prueba.
+
 ## Cambiar demo activa
 
 Edita:

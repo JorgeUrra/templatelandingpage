@@ -2,13 +2,53 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../modules/shared/Button.astro';
 ---
-<BaseLayout title="Gracias por contactarnos">
+<BaseLayout title="Solicitud recibida | PeumaTek">
   <section class="section thank-you">
-    <div class="container container--narrow card">
-      <span class="eyebrow">Solicitud recibida</span>
-      <h1>Gracias por contactarnos</h1>
-      <p>Esta página confirma el envío del formulario. En producción puedes conectar el formulario a WhatsApp, Formspree, Tally, Netlify Forms, Google Sheets o una API propia.</p>
-      <Button href="/" label="Volver al inicio" />
+    <div class="container thank-you__grid">
+      <article class="card thank-you__card">
+        <div class="thank-you__status">
+          <span class="thank-you__icon" id="status-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 6 9 17l-5-5" />
+            </svg>
+          </span>
+          <span class="eyebrow" id="status-eyebrow">Solicitud recibida</span>
+        </div>
+
+        <h1 id="status-title">Tu mensaje ya está en camino</h1>
+        <p id="status-copy">Gracias por escribir a PeumaTek. Recibí tus datos y revisaré tu solicitud para responderte con una propuesta clara, normalmente durante el mismo día hábil.</p>
+
+        <div class="thank-you__actions">
+          <Button href="/" label="Volver al inicio" />
+          <Button href="/#contacto" label="Enviar otra consulta" variant="secondary" />
+        </div>
+      </article>
+
+      <aside class="card thank-you__next">
+        <span class="eyebrow">Próximos pasos</span>
+        <ol class="thank-you__steps">
+          <li><strong>Reviso el contexto</strong><span>Leo tu mensaje y ordeno las preguntas clave.</span></li>
+          <li><strong>Te contacto</strong><span>Respondo por correo o teléfono según los datos enviados.</span></li>
+          <li><strong>Definimos alcance</strong><span>Si hace sentido, armamos una propuesta simple y aterrizada.</span></li>
+        </ol>
+        <p class="thank-you__note">Si es urgente, también puedes escribir directo por WhatsApp desde el sitio.</p>
+      </aside>
     </div>
   </section>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const estado = params.get('estado');
+    const nombre = params.get('nombre');
+
+    if (estado === 'error') {
+      document.documentElement.dataset.formStatus = 'error';
+      document.getElementById('status-eyebrow').textContent = 'No se pudo enviar';
+      document.getElementById('status-title').textContent = 'El mensaje no salió esta vez';
+      document.getElementById('status-copy').textContent = 'Hubo un problema al enviar el formulario. Puedes volver a intentarlo o escribirme directo por WhatsApp para que no se pierda tu solicitud.';
+      document.getElementById('status-icon').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 4.3 2.8 17.2A2 2 0 0 0 4.5 20h15a2 2 0 0 0 1.7-2.8L13.7 4.3a2 2 0 0 0-3.4 0Z"/></svg>';
+    } else if (nombre) {
+      document.getElementById('status-copy').textContent = `Gracias, ${nombre}. Recibí tus datos y revisaré tu solicitud para responderte con una propuesta clara, normalmente durante el mismo día hábil.`;
+    }
+  </script>
 </BaseLayout>

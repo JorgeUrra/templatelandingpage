@@ -963,6 +963,14 @@ h3 {
   font-weight: 700;
 }
 
+.field--hidden {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 input,
 textarea {
   width: 100%;
@@ -1482,6 +1490,136 @@ textarea {
   min-height: 70vh;
   display: grid;
   align-items: center;
+}
+
+.thank-you__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+  gap: 22px;
+  align-items: stretch;
+}
+
+.thank-you__card {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(28px, 5vw, 48px);
+}
+
+.thank-you__card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 14% 0%, color-mix(in srgb, var(--primary) 20%, transparent), transparent 34%),
+    radial-gradient(circle at 88% 10%, color-mix(in srgb, var(--accent, var(--primary)) 14%, transparent), transparent 30%);
+}
+
+.thank-you__card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.thank-you__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.thank-you__icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary) 32%, var(--border));
+}
+
+.thank-you__icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.thank-you__card p {
+  max-width: 680px;
+  font-size: 1.08rem;
+}
+
+.thank-you__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.thank-you__next {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.thank-you__steps {
+  display: grid;
+  gap: 14px;
+  margin: 20px 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: thank-step;
+}
+
+.thank-you__steps li {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  padding-left: 42px;
+  counter-increment: thank-step;
+}
+
+.thank-you__steps li::before {
+  content: counter(thank-step);
+  position: absolute;
+  left: 0;
+  top: 2px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
+  color: var(--primary);
+  font-weight: 900;
+  font-size: 0.82rem;
+  border: 1px solid color-mix(in srgb, var(--primary) 28%, var(--border));
+}
+
+.thank-you__steps span,
+.thank-you__note {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.thank-you__note {
+  margin: 0;
+}
+
+[data-form-status='error'] .thank-you__icon {
+  color: var(--accent, #F07820);
+  background: color-mix(in srgb, var(--accent, #F07820) 14%, transparent);
+  border-color: color-mix(in srgb, var(--accent, #F07820) 34%, var(--border));
+}
+
+@media (max-width: 860px) {
+  .thank-you__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .thank-you__actions .btn {
+    width: 100%;
+  }
 }
 
 /* ── Hero mock tags ──────────────────────────────────── */

@@ -9,6 +9,7 @@ interface Props {
 const { title = siteConfig.seo.title, description = siteConfig.seo.description } = Astro.props;
 const isServices = siteConfig.businessType === 'services';
 const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encodeURIComponent('Hola, quiero solicitar una cotización a ' + siteConfig.business.name)}`;
+const homePath = Astro.url.pathname === '/' ? '' : '/';
 ---
 <!doctype html>
 <html lang="es" class={activeTheme.className}>
@@ -33,7 +34,7 @@ const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encode
   <body>
     <header class="site-header">
       <div class="container site-header__inner">
-        <a href="#inicio" class="brand" aria-label={siteConfig.business.name}>
+        <a href={`${homePath}#inicio`} class="brand" aria-label={siteConfig.business.name}>
           {isServices ? (
             <img class="brand__svg" src="/images/peumatek-icon.png" alt="PeumaTek" width="42" height="42" />
           ) : (
@@ -48,24 +49,24 @@ const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encode
         <nav class="nav">
           {isServices ? (
             <>
-              <a href="#servicios">Servicios</a>
-              <a href="#planes">Planes</a>
-              <a href="#portafolio">Proyectos</a>
-              <a href="#about">Quién está detrás</a>
-              <a href="#contacto">Contacto</a>
+              <a href={`${homePath}#servicios`}>Servicios</a>
+              <a href={`${homePath}#planes`}>Planes</a>
+              <a href={`${homePath}#portafolio`}>Proyectos</a>
+              <a href={`${homePath}#about`}>Quién está detrás</a>
+              <a href={`${homePath}#contacto`}>Contacto</a>
             </>
           ) : (
             <>
-              <a href="#beneficios">Beneficios</a>
-              {siteConfig.businessType === 'gym' && <a href="#planes-gimnasio">Planes</a>}
-              {siteConfig.businessType === 'automotive' && <a href="#vehiculos">Vehículos</a>}
-              <a href="#faq">FAQ</a>
-              <a href="#contacto">Contacto</a>
+              <a href={`${homePath}#beneficios`}>Beneficios</a>
+              {siteConfig.businessType === 'gym' && <a href={`${homePath}#planes-gimnasio`}>Planes</a>}
+              {siteConfig.businessType === 'automotive' && <a href={`${homePath}#vehiculos`}>Vehículos</a>}
+              <a href={`${homePath}#faq`}>FAQ</a>
+              <a href={`${homePath}#contacto`}>Contacto</a>
             </>
           )}
         </nav>
         {isServices && (
-          <a href="#contacto" class="btn btn--primary header-cta">Solicitar cotización</a>
+          <a href={`${homePath}#contacto`} class="btn btn--primary header-cta">Solicitar cotización</a>
         )}
       </div>
     </header>

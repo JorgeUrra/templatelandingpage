@@ -63,10 +63,12 @@ const isReal = (value: string) => Boolean(value) && !value.includes('[');
       <Button href={whatsappUrl} target="_blank" label="Hablar por WhatsApp" variant="whatsapp" />
     </div>
 
-    <form class="card contact-form" action="/gracias" method="get">
-      <label>Nombre<input name="nombre" required placeholder="Tu nombre" /></label>
-      <label>Teléfono<input name="telefono" required placeholder="+56 9..." /></label>
-      <label>Correo<input name="email" type="email" placeholder="correo@ejemplo.cl" /></label>
+    <form class="card contact-form" action="/api/contact" method="post">
+      <input type="hidden" name="origen" value="Formulario de contacto PeumaTek" />
+      <label class="field--hidden">Empresa<input name="empresa_web" tabindex="-1" autocomplete="off" /></label>
+      <label>Nombre<input name="nombre" autocomplete="name" required placeholder="Tu nombre" /></label>
+      <label>Teléfono<input name="telefono" type="tel" autocomplete="tel" required placeholder="+56 9..." /></label>
+      <label>Correo<input name="email" type="email" autocomplete="email" placeholder="correo@ejemplo.cl" /></label>
       <label>¿Qué necesitas?<textarea name="mensaje" rows="4" placeholder="Cuéntame brevemente tu idea o problema a resolver"></textarea></label>
       <button class="btn btn--primary" type="submit">
         <span>Enviar consulta</span>

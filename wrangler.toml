@@ -1,4 +1,5 @@
 name = "peumatek"
+main = "src/worker.ts"
 compatibility_date = "2026-06-12"
 
 [build]
@@ -6,5 +7,10 @@ command = "npm run build"
 
 [assets]
 directory = "./dist"
+binding = "ASSETS"
+run_worker_first = ["/api/*"]
 html_handling = "auto-trailing-slash"
 not_found_handling = "404-page"
+
+[vars]
+CONTACT_TO_EMAIL = "jorge.urra.merino@gmail.com"
