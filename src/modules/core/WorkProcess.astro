@@ -1,6 +1,7 @@
 ---
 import SectionHeader from '../shared/SectionHeader.astro';
 import { workProcess } from '../../data/peumatek';
+import { lineIcons } from '../../data/icons';
 ---
 
 <section class="section" id="proceso">
@@ -8,17 +9,18 @@ import { workProcess } from '../../data/peumatek';
     <SectionHeader
       eyebrow="Cómo trabajo"
       title="Proceso de trabajo"
-      description="Cada proyecto sigue un proceso claro para que sepas en qué etapa estamos y qué sigue."
+      description="Cada proyecto sigue un camino claro: sabes en qué etapa estamos y qué sigue."
       align="center"
     />
-    <div class="process-grid">
+    <ol class="process-flow">
       {workProcess.map((item) => (
-        <article class="card process-card">
-          <span class="process-step-num">{item.step}</span>
+        <li class="process-flow__step">
+          <span class="process-flow__node" set:html={lineIcons[item.icon] ?? ''}></span>
+          <span class="process-flow__num">{item.step}</span>
           <h3>{item.title}</h3>
           <p>{item.description}</p>
-        </article>
+        </li>
       ))}
-    </div>
+    </ol>
   </div>
 </section>

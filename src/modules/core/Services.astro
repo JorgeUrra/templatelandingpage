@@ -3,8 +3,49 @@ import SectionHeader from '../shared/SectionHeader.astro';
 import { services } from '../../data/core';
 import { siteConfig } from '../../config/site.config';
 import { lineIcons } from '../../data/icons';
+import { scenes } from '../../data/scenes';
 
 const isServices = siteConfig.businessType === 'services';
+
+const serviceDetails = [
+  {
+    label: 'Sistemas internos',
+    focus: 'Ordenar la operacion',
+    visual: 'systems',
+    points: ['Paneles y mantenedores', 'Roles y usuarios', 'Flujos a medida']
+  },
+  {
+    label: 'Presencia web',
+    focus: 'Convertir visitas',
+    visual: 'web',
+    points: ['WhatsApp y formularios', 'Mapa, reservas y SEO', 'Carga rapida']
+  },
+  {
+    label: 'Apps y terreno',
+    focus: 'Trabajar desde el celular',
+    visual: 'mobile',
+    points: ['QR, GPS y camara', 'Modo offline', 'Notificaciones']
+  },
+  {
+    label: 'Automatizacion',
+    focus: 'Conectar herramientas',
+    visual: 'integrations',
+    points: ['APIs y workers', 'Procesos programados', 'Alertas automaticas']
+  },
+  {
+    label: 'Datos y gestion',
+    focus: 'Medir sin depender de planillas',
+    visual: 'data',
+    points: ['Indicadores claros', 'Reportes exportables', 'Graficos utiles']
+  },
+  {
+    label: 'Salida a produccion',
+    focus: 'Publicar y mantener',
+    visual: 'release',
+    points: ['Activos y pruebas', 'Google Play', 'Mantencion']
+  }
+];
+
 ---
 {isServices ? (
   <section class="section section--muted" id="servicios">
@@ -14,16 +55,32 @@ const isServices = siteConfig.businessType === 'services';
         title="Qué puedo desarrollar para tu negocio"
         description="Desde un sitio simple hasta sistemas completos. Cada proyecto se ajusta a lo que realmente necesitas."
       />
-      <div class="services-bento">
+      <div class="services-bento services-showcase">
         {services.map((s, i) => {
-          const wide = i === 0 || i === services.length - 1;
+          const detail = serviceDetails[i] ?? serviceDetails[0];
           return (
-            <article class:list={["card", "service-card", "js-spotlight", wide && "service-card--wide"]}>
+            <article class:list={[
+              "card",
+              "service-card",
+              "service-card--showcase",
+              "js-spotlight",
+              (s as any).icon && `service-card--${(s as any).icon}`
+            ]}>
               <span class="spotlight" aria-hidden="true"></span>
-              <span class="service-icon" set:html={lineIcons[(s as any).icon] ?? ''}></span>
+              <div class="service-card__visual" aria-hidden="true">
+                <span class="service-icon" set:html={lineIcons[(s as any).icon] ?? ''}></span>
+                <span class="service-scene" set:html={scenes[detail.visual] ?? ''}></span>
+              </div>
               <div class="service-card__body">
+                <div class="service-card__topline">
+                  <span class="service-label">{detail.label}</span>
+                  <span class="service-focus">{detail.focus}</span>
+                </div>
                 <h3>{s.title}</h3>
                 <p>{s.description}</p>
+                <ul class="service-points">
+                  {detail.points.map((point) => <li>{point}</li>)}
+                </ul>
                 {(s as any).meta && <span class="service-meta">{(s as any).meta}</span>}
               </div>
             </article>

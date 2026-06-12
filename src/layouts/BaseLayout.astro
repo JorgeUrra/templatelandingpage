@@ -77,7 +77,7 @@ const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encode
         <div>
           <strong>{siteConfig.business.name}</strong>
           <p>{siteConfig.business.description}</p>
-          {isServices && siteConfig.social && (
+          {isServices && Object.values(siteConfig.social).some(Boolean) && (
             <div class="footer-social">
               {siteConfig.social.github && <a href={siteConfig.social.github} target="_blank" rel="noopener">GitHub</a>}
               {siteConfig.social.linkedin && <a href={siteConfig.social.linkedin} target="_blank" rel="noopener">LinkedIn</a>}

@@ -2,13 +2,25 @@
 import SectionHeader from '../shared/SectionHeader.astro';
 import { faqs } from '../../data/core';
 ---
-<section class="section section--muted" id="faq">
+<section class="section" id="faq">
   <div class="container container--narrow">
-    <SectionHeader eyebrow="FAQ" title="Preguntas frecuentes" description="Preguntas que reducen dudas y mejoran la conversión antes del contacto." />
+    <SectionHeader
+      eyebrow="Preguntas frecuentes"
+      title="Resuelve tus dudas"
+      description="Lo que más me preguntan antes de empezar un proyecto."
+      align="center"
+    />
     <div class="faq-list">
       {faqs.map((item) => (
         <details class="faq-item">
-          <summary>{item.question}</summary>
+          <summary>
+            <span class="faq-item__q">{item.question}</span>
+            <span class="faq-item__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </span>
+          </summary>
           <p>{item.answer}</p>
         </details>
       ))}

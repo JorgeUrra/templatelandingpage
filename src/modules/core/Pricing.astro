@@ -1,33 +1,38 @@
 ---
 import SectionHeader from '../shared/SectionHeader.astro';
 import Button from '../shared/Button.astro';
-import { pricingPlans } from '../../data/core';
+import { pricingPlans, entryPlan } from '../../data/core';
 import { pricingNote } from '../../data/peumatek';
 import { siteConfig } from '../../config/site.config';
+import { lineIcons } from '../../data/icons';
 
 const isServices = siteConfig.businessType === 'services';
 const whatsappUrl = `https://wa.me/${siteConfig.business.whatsapp}?text=${encodeURIComponent('Hola, quiero consultar por un plan de landing page')}`;
 const ctaHref = isServices ? '#contacto' : whatsappUrl;
 const ctaTarget = isServices ? undefined : '_blank';
 ---
-<section class="section" id="planes">
+<section class:list={["section", isServices && "pricing--showcase"]} id="planes">
   <div class="container">
     <SectionHeader
       eyebrow="Planes"
       title={isServices ? 'Planes para landing pages' : 'Planes configurables'}
       description={isServices
-        ? 'Opciones pensadas para negocios que necesitan una presencia digital profesional lista para funcionar.'
+        ? 'Planes mensuales con soporte incluido. Elige según cuánto quieras delegar.'
         : 'Este módulo sirve para membresías, servicios, paquetes o precios referenciales.'}
     />
-    <div class="grid grid--3 pricing-grid">
+    <div class="pricing-grid">
       {pricingPlans.map((plan) => (
-        <article class:list={["card", "pricing-card", plan.highlighted && "pricing-card--highlighted"]}>
+        <article class:list={["card", "pricing-card", "js-spotlight", plan.highlighted && "pricing-card--highlighted"]}>
+          <span class="spotlight" aria-hidden="true"></span>
           {plan.highlighted && <span class="pill">Más solicitado</span>}
+          {(plan as any).icon && (
+            <span class="service-icon pricing-icon" set:html={lineIcons[(plan as any).icon] ?? ''}></span>
+          )}
           <h3>{plan.name}</h3>
           <div class="price">{plan.price}</div>
-          <p class="muted">{plan.period}</p>
+          <p class="muted price-period">{plan.period}</p>
           {'note' in plan && plan.note && <p class="pricing-condition">{plan.note}</p>}
-          <p>{plan.description}</p>
+          <p class="pricing-card__desc">{plan.description}</p>
           <ul class="check-list">
             {plan.features.map((feature) => <li>{feature}</li>)}
           </ul>
@@ -35,6 +40,34 @@ const ctaTarget = isServices ? undefined : '_blank';
         </article>
       ))}
     </div>
+
+    {isServices && (
+      <article class="entry-plan js-spotlight">
+        <span class="spotlight" aria-hidden="true"></span>
+        <div class="entry-plan__lead">
+          <span class="service-icon entry-plan__icon" set:html={lineIcons[entryPlan.icon] ?? ''}></span>
+          <div class="entry-plan__copy">
+            <div class="entry-plan__head">
+              <strong>{entryPlan.name}</strong>
+              <span class="entry-plan__tag">Pago único</span>
+            </div>
+            <p>{entryPlan.pitch}</p>
+            <ul class="entry-plan__includes">
+              {entryPlan.includes.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        </div>
+        <div class="entry-plan__action">
+          <div class="entry-plan__price">
+            {entryPlan.price}
+            <span>{entryPlan.period}</span>
+          </div>
+          <Button href={ctaHref} target={ctaTarget} label={entryPlan.ctaText} variant="secondary" />
+        </div>
+        <p class="entry-plan__note">{entryPlan.footnote}</p>
+      </article>
+    )}
+
     {isServices && <p class="pricing-note">{pricingNote}</p>}
   </div>
 </section>

@@ -28,48 +28,56 @@ export const aboutPeumatek = {
   eyebrow: 'Quién está detrás',
   title: 'Una marca, una persona, foco en resultados',
   intro:
-    'PeumaTek es una marca de desarrollo digital creada por Jorge Urra, desarrollador de software con experiencia en aplicaciones web, móviles, sistemas internos, integraciones, reportes y soluciones operacionales.',
-  body:
-    'El foco está en construir tecnología simple, clara y útil para negocios, profesionales y equipos que necesitan resolver problemas concretos. Sin capas innecesarias, sin promesas de agencia, sin equipos de 20 personas que no conocen tu proyecto.',
+    'PeumaTek es una marca de desarrollo digital creada por Jorge Urra: desarrollador de software con experiencia en aplicaciones web, móviles, sistemas internos, integraciones y soluciones operacionales para contextos reales.',
+  trustPoints: [
+    'Hablas siempre con quien desarrolla, sin intermediarios',
+    'Tecnología simple y mantenible, sin sobre-ingeniería',
+    'Te acompaño desde la idea hasta la publicación',
+  ],
   profileTitle: 'Desarrollador de software y soluciones digitales',
   profileName: 'Jorge Urra',
   profileInitials: 'JU',
   // Foto opcional para dar cercanía. Deja '' para usar las iniciales.
   // Si tienes una foto, déjala en public/images/ y pon aquí p.ej. '/images/jorge.jpg'.
   profilePhoto: '',
-  highlightedStack: ['Angular', 'Ionic', '.NET', 'SQL Server', 'APIs REST', 'Capacitor'],
 };
 
 export const workProcess = [
   {
     step: '01',
+    icon: 'search',
     title: 'Diagnóstico',
-    description: 'Conversamos sobre lo que necesitas, el contexto del negocio y el problema a resolver.'
+    description: 'Entiendo qué necesitas y el problema a resolver.'
   },
   {
     step: '02',
+    icon: 'document',
     title: 'Propuesta',
-    description: 'Preparo una propuesta con alcance, tecnología, plazo estimado y precio antes de empezar.'
+    description: 'Te paso alcance, plazo y precio antes de partir.'
   },
   {
     step: '03',
+    icon: 'code',
     title: 'Diseño y desarrollo',
-    description: 'Diseño la estructura y desarrollo la solución con el stack adecuado para el proyecto.'
+    description: 'Construyo la solución con el stack adecuado.'
   },
   {
     step: '04',
+    icon: 'check',
     title: 'Revisión',
-    description: 'Te muestro avances, recibo feedback y ajusto antes de publicar.'
+    description: 'Te muestro avances y ajusto con tu feedback.'
   },
   {
     step: '05',
+    icon: 'rocket',
     title: 'Publicación',
-    description: 'Publico el sitio, app o sistema en el entorno final y verifico que todo funcione.'
+    description: 'Publico y verifico que todo funcione.'
   },
   {
     step: '06',
+    icon: 'support',
     title: 'Soporte',
-    description: 'Quedo disponible para mejoras, correcciones y continuidad según lo acordado.'
+    description: 'Quedo disponible para mejoras y continuidad.'
   }
 ];
 

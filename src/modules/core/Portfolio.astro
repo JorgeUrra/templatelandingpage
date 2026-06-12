@@ -1,10 +1,12 @@
 ---
 import SectionHeader from '../shared/SectionHeader.astro';
 import Button from '../shared/Button.astro';
-import { ownApps, solutionCases, portfolioIntro, statusLabels } from '../../data/portfolio';
+import { ownApps, solutionCases, portfolioIntro, statusLabels, appScreens } from '../../data/portfolio';
+import { scenes } from '../../data/scenes';
+import { lineIcons } from '../../data/icons';
 ---
 
-<section class="section" id="portafolio">
+<section class="section section--muted" id="portafolio">
   <div class="container">
     <SectionHeader
       eyebrow="Proyectos y experiencia"
@@ -15,37 +17,82 @@ import { ownApps, solutionCases, portfolioIntro, statusLabels } from '../../data
     <!-- Aplicaciones propias -->
     <div class="portfolio-subsection">
       <h3 class="subsection-label">Aplicaciones publicadas y en desarrollo</h3>
-      <div class="grid grid--2">
-        {ownApps.map((app) => (
-          <article class="card portfolio-app-card">
-            <div class="app-card-header">
-              <div class="app-icon-badge">{app.icon}</div>
-              <span class={`app-status app-status--${app.status}`}>
-                {statusLabels[app.status]}
-              </span>
-            </div>
-            <h3>{app.name}</h3>
-            <p>{app.description}</p>
-            <div class="tech-tags">
-              {app.stack.map((tech) => <span class="tech-tag">{tech}</span>)}
-            </div>
-            <div class="app-actions">
-              {app.platforms.includes('google-play') && (
-                app.playStoreUrl
-                  ? <Button href={app.playStoreUrl} target="_blank" label="Ver en Google Play" variant="primary" />
-                  : <span class="btn-placeholder">Próximamente en Google Play</span>
+      <div class="app-showcase-list">
+        {ownApps.map((app, i) => {
+          const shots = (app.screenshots && app.screenshots.length)
+            ? app.screenshots
+            : (app.screenshot ? [app.screenshot] : []);
+          const hasFan = shots.length > 1;
+          return (
+            <article class:list={["card", "app-showcase", "js-spotlight", i % 2 === 1 && "app-showcase--reverse", hasFan && "app-showcase--gallery"]}>
+              <span class="spotlight" aria-hidden="true"></span>
+              {shots.length > 0 ? (
+                <button
+                  type="button"
+                  class="app-showcase__device app-device-btn"
+                  data-shots={JSON.stringify(shots)}
+                  aria-label={`Ampliar capturas de ${app.name}`}
+                >
+                  {hasFan ? (
+                    <div class="phone-stack">
+                      {shots.slice(0, 3).map((src) => (
+                        <div class="phone">
+                          <div class="phone__screen"><img src={src} alt={`${app.name} — captura`} loading="lazy" /></div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div class="phone phone--shot">
+                      <div class="phone__screen"><img src={shots[0]} alt={`Captura de ${app.name}`} loading="lazy" /></div>
+                    </div>
+                  )}
+                  <span class="device-expand">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                    </svg>
+                    {hasFan ? `Ver las ${shots.length} capturas` : 'Ampliar'}
+                  </span>
+                </button>
+              ) : (
+                <div class="app-showcase__device">
+                  <div class="phone">
+                    <span class="phone__notch"></span>
+                    <div class="phone__screen"><span class="phone__placeholder" set:html={appScreens[app.screen ?? ''] ?? ''}></span></div>
+                  </div>
+                </div>
               )}
-              {app.platforms.includes('app-store') && (
-                app.appStoreUrl
-                  ? <Button href={app.appStoreUrl} target="_blank" label="Ver en App Store" variant="secondary" />
-                  : <span class="btn-placeholder">Próximamente en App Store</span>
-              )}
-              {app.detailUrl && (
-                <Button href={app.detailUrl} label="Ver detalle" variant="ghost" />
-              )}
-            </div>
-          </article>
-        ))}
+              <div class="app-showcase__info">
+                <div class="app-showcase__head">
+                  <span class="app-icon" set:html={lineIcons[app.icon] ?? ''}></span>
+                  <div>
+                    <h4>{app.name}</h4>
+                    <span class={`app-status app-status--${app.status}`}>{statusLabels[app.status]}</span>
+                  </div>
+                </div>
+                <p>{app.description}</p>
+                {app.highlights && app.highlights.length > 0 && (
+                  <ul class="app-highlights">
+                    {app.highlights.map((h) => <li>{h}</li>)}
+                  </ul>
+                )}
+                <div class="tech-tags">
+                  {app.stack.map((tech) => <span class="tech-tag">{tech}</span>)}
+                </div>
+                <div class="app-actions">
+                  {app.platforms.includes('google-play') && (
+                    app.playStoreUrl
+                      ? <Button href={app.playStoreUrl} target="_blank" label="Ver en Google Play" variant="primary" />
+                      : <span class="btn-placeholder">Próximamente en Google Play</span>
+                  )}
+                  {app.platforms.includes('app-store') && app.appStoreUrl && (
+                    <Button href={app.appStoreUrl} target="_blank" label="Ver en App Store" variant="secondary" />
+                  )}
+                  {app.detailUrl && <Button href={app.detailUrl} label="Ver detalle" variant="ghost" />}
+                </div>
+              </div>
+            </article>
+          );
+        })}
       </div>
     </div>
 
@@ -53,9 +100,12 @@ import { ownApps, solutionCases, portfolioIntro, statusLabels } from '../../data
     <div class="portfolio-subsection">
       <h3 class="subsection-label">Casos de solución desarrollados</h3>
       <div class="grid grid--2">
-        {solutionCases.map((item, i) => (
-          <article class="card portfolio-case-card">
-            <span class="case-number">0{i + 1}</span>
+        {solutionCases.map((item) => (
+          <article class="card case-card js-spotlight">
+            <span class="spotlight" aria-hidden="true"></span>
+            <div class="case-card__visual" aria-hidden="true">
+              <span class="case-scene" set:html={scenes[item.visual] ?? ''}></span>
+            </div>
             <h3>{item.title}</h3>
             <p>{item.description}</p>
             {item.areas && item.areas.length > 0 && (
@@ -71,4 +121,90 @@ import { ownApps, solutionCases, portfolioIntro, statusLabels } from '../../data
       </div>
     </div>
   </div>
+
+  <!-- Visor de capturas (lightbox) -->
+  <div class="lightbox" id="app-lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Capturas de la aplicación">
+    <div class="lightbox__backdrop" data-close></div>
+    <button type="button" class="lightbox__close" data-close aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+    <div class="lightbox__content">
+      <div class="lightbox__viewer">
+        <button type="button" class="lightbox__nav" data-prev aria-label="Anterior">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>
+        </button>
+        <div class="lightbox__stage"></div>
+        <button type="button" class="lightbox__nav" data-next aria-label="Siguiente">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+        </button>
+      </div>
+      <div class="lightbox__dots"></div>
+    </div>
+  </div>
 </section>
+
+<script>
+  const lb = document.getElementById('app-lightbox');
+  if (lb) {
+    const stage = lb.querySelector('.lightbox__stage');
+    const dotsWrap = lb.querySelector('.lightbox__dots');
+    const prevBtn = lb.querySelector('[data-prev]');
+    const nextBtn = lb.querySelector('[data-next]');
+    let shots = [];
+    let idx = 0;
+    let lastFocus = null;
+
+    const update = () => {
+      stage.querySelectorAll('img').forEach((im, i) => { im.hidden = i !== idx; });
+      dotsWrap.querySelectorAll('button').forEach((d, i) => d.setAttribute('aria-current', String(i === idx)));
+    };
+
+    const render = () => {
+      stage.innerHTML = shots.map((src) => `<img src="${src}" alt="Captura de la aplicación" />`).join('');
+      dotsWrap.innerHTML = shots.map(() => '<button type="button" class="lightbox__dot" aria-label="Ir a captura"></button>').join('');
+      dotsWrap.querySelectorAll('button').forEach((d, i) => d.addEventListener('click', () => { idx = i; update(); }));
+      const multi = shots.length > 1;
+      prevBtn.style.display = multi ? '' : 'none';
+      nextBtn.style.display = multi ? '' : 'none';
+      dotsWrap.style.display = multi ? '' : 'none';
+      update();
+    };
+
+    const open = (s) => {
+      shots = s; idx = 0; render();
+      lastFocus = document.activeElement;
+      lb.hidden = false;
+      lb.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      lb.querySelector('.lightbox__close').focus();
+    };
+
+    const close = () => {
+      lb.hidden = true;
+      lb.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    };
+
+    const go = (n) => {
+      if (shots.length < 2) return;
+      idx = (idx + n + shots.length) % shots.length;
+      update();
+    };
+
+    document.querySelectorAll('[data-shots]').forEach((t) => {
+      t.addEventListener('click', () => {
+        try { open(JSON.parse(t.dataset.shots)); } catch (e) {}
+      });
+    });
+    prevBtn.addEventListener('click', () => go(-1));
+    nextBtn.addEventListener('click', () => go(1));
+    lb.querySelectorAll('[data-close]').forEach((c) => c.addEventListener('click', close));
+    document.addEventListener('keydown', (e) => {
+      if (lb.hidden) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') go(-1);
+      else if (e.key === 'ArrowRight') go(1);
+    });
+  }
+</script>

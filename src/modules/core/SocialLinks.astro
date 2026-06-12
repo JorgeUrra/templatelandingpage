@@ -16,18 +16,23 @@ const links = Object.entries(siteConfig.social).filter(([, value]) => Boolean(va
 {links.length > 0 && (
   <section class="section" id="redes">
     <div class="container container--narrow">
-      <SectionHeader eyebrow="Redes" title="También puedes encontrarnos aquí" />
+      <SectionHeader
+        eyebrow="Conecta"
+        title="Sígueme y revisa mi trabajo"
+        description="Más sobre lo que construyo y mi experiencia profesional."
+        align="center"
+      />
       <div class="social-list">
         {links.map(([name, url]) => (
           <a
             href={url as string}
             target="_blank"
             rel="noopener"
-            class="social-icon-link"
+            class="social-pill"
             aria-label={labels[name] ?? name}
           >
-            <span class="social-icon" style={`--mask:url(/images/social/${name}.svg)`}></span>
-            <span class="social-icon-link__tip" role="tooltip">{labels[name] ?? name}</span>
+            <span class="social-pill__icon" style={`--mask:url(/images/social/${name}.svg)`}></span>
+            <span>{labels[name] ?? name}</span>
           </a>
         ))}
       </div>

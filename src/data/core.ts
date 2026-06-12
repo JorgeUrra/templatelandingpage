@@ -42,21 +42,32 @@ export const services = isGym
       { title: 'Parte de pago', description: 'Recibimos tu vehículo y revisamos alternativas.' }
     ];
 
+// Plan de entrada (pago único). Se muestra como tira aparte, no en la grilla,
+// porque su estructura es distinta a los planes con mensualidad.
+export const entryPlan = {
+  name: 'Plan Presencia',
+  price: '$109.990',
+  period: 'pago único',
+  icon: 'web',
+  pitch: '¿Solo necesitas estar online? Tu landing publicada con dominio y hosting el primer año, sin mensualidad.',
+  includes: ['1 página publicada', 'Dominio .cl 1 año', 'Hosting + HTTPS', 'WhatsApp y formulario'],
+  footnote: 'Desde el 2º año renuevas dominio y hosting por tu cuenta. No incluye cambios ni soporte.',
+  ctaText: 'Quiero este plan'
+};
+
 export const pricingPlans = [
   {
     name: 'Plan Emprende',
     price: '$129.990',
-    period: 'inicial + $29.990 mensual',
-    description: 'Presencia digital profesional para negocios que están partiendo o necesitan renovarse.',
+    period: 'inicial + $29.990 / mes',
+    description: 'Siempre online y al día, sin que te preocupes de lo técnico.',
+    icon: 'rocket',
     features: [
-      'Landing de una página',
-      'Dominio .cl por 1 año',
-      '1 correo corporativo (hasta 3 alias)',
-      'Hosting incluido',
-      'Botón de WhatsApp',
-      'Formulario simple',
-      'Mapa y galería básica',
-      '1 cambio menor mensual no acumulable'
+      'Todo lo de Presencia, administrado por mí',
+      'Correo profesional en Gmail con tu dominio',
+      'Dominio y hosting siempre al día',
+      'Mapa y galería de fotos',
+      '1 cambio al mes'
     ],
     highlighted: false,
     ctaText: 'Solicitar cotización',
@@ -65,15 +76,15 @@ export const pricingPlans = [
   {
     name: 'Plan Reserva',
     price: '$179.990',
-    period: 'inicial + $34.990 mensual',
-    description: 'Para negocios que necesitan agendar, reservar o recibir cotizaciones desde el sitio.',
+    period: 'inicial + $34.990 / mes',
+    description: 'Para que tus clientes agenden o coticen solos, sin llamadas.',
+    icon: 'calendar',
     features: [
       'Todo lo del Plan Emprende',
-      'Botón de reserva y calendario embebido',
-      'Configuración inicial de agenda',
-      'Sección de servicios',
-      'Página de gracias',
-      '2 cambios menores mensuales no acumulables'
+      'Reservas online con calendario',
+      'Tus clientes agendan solos, 24/7',
+      'Servicios con descripción y precios',
+      '2 cambios al mes'
     ],
     highlighted: true,
     ctaText: 'Solicitar cotización',
@@ -82,16 +93,16 @@ export const pricingPlans = [
   {
     name: 'Plan Pro',
     price: '$249.990',
-    period: 'inicial + $44.990 mensual',
-    description: 'Diseño más trabajado, más secciones y mayor capacidad de conversión.',
+    period: 'inicial + $44.990 / mes',
+    description: 'Máxima presencia y conversión: diseño premium y posicionamiento en Google.',
+    icon: 'star',
     features: [
-      'Landing con diseño más trabajado',
-      'Dominio .cl por 1 año',
-      '1 correo corporativo (hasta 5 alias)',
-      'Reserva o formulario avanzado',
-      'Galería, testimonios y preguntas frecuentes',
-      'SEO local básico',
-      '2 cambios menores mensuales no acumulables'
+      'Todo lo del Plan Reserva',
+      'Diseño premium con más secciones',
+      'Correo en Gmail (hasta 5 cuentas)',
+      'Testimonios y preguntas frecuentes',
+      'Apareces en Google (SEO local)',
+      '2 cambios al mes con prioridad'
     ],
     highlighted: false,
     ctaText: 'Solicitar cotización',
@@ -120,11 +131,12 @@ export const faqs = isGym
     ]
   : isServices
   ? [
-      { question: '¿En cuánto tiempo desarrollas un sitio web?', answer: 'Un landing page estándar toma entre 5 y 10 días hábiles. Proyectos más complejos se estiman según alcance en la etapa de propuesta.' },
+      { question: '¿En cuánto tiempo está listo mi sitio?', answer: 'Una landing estándar toma entre 5 y 10 días hábiles. Los proyectos más complejos se estiman según su alcance en la etapa de propuesta.' },
+      { question: '¿Cómo es el correo profesional con mi dominio?', answer: 'Usas tu propio dominio (ej: hola@tunegocio.cl) dentro de Gmail, con la misma interfaz de Google que ya conoces, en el celular y el computador. Funciona sobre Google Workspace y lo dejo configurado al activar tu plan.' },
+      { question: '¿Qué pasa con el dominio y el hosting cada año?', answer: 'En los planes mensuales yo me encargo de renovarlos mientras el servicio esté activo, sin que tengas que preocuparte. En el Plan Presencia (pago único), desde el segundo año los renuevas tú.' },
+      { question: '¿Puedo pedir cambios después de publicado el sitio?', answer: 'Sí. Los planes mensuales incluyen cambios menores cada mes (textos, fotos, precios). Las modificaciones mayores o nuevas funcionalidades se cotizan por separado.' },
       { question: '¿Trabajas con negocios fuera de Peumo?', answer: 'Sí. Trabajo de forma remota con negocios y profesionales en cualquier ciudad de Chile.' },
-      { question: '¿Puedo pedir cambios después de publicado el sitio?', answer: 'Sí. Los planes incluyen cambios menores mensuales. Modificaciones mayores o nuevas funcionalidades se cotizan por separado.' },
-      { question: '¿Desarrollas solo landing pages o también sistemas más complejos?', answer: 'Desarrollo desde landing pages hasta sistemas web y móviles completos: paneles administrativos, apps móviles, integraciones, dashboards y automatizaciones.' },
-      { question: '¿Qué necesito para empezar?', answer: 'Solo cuéntame qué necesitas. A partir de eso preparo una propuesta con alcance, plazo y precio antes de comenzar.' }
+      { question: '¿Desarrollas solo landing pages o también sistemas más complejos?', answer: 'Desde landing pages hasta sistemas web y móviles completos: paneles administrativos, apps, integraciones, dashboards y automatizaciones.' }
     ]
   : [
       { question: '¿Tienen financiamiento?', answer: 'Sí. Puedes solicitar orientación y evaluación de alternativas.' },

@@ -92,8 +92,7 @@ const peumatekModules: ModuleKey[] = [
   'workProcess',
   'about',
   'faq',
-  'contact',
-  'socialLinks'
+  'contact'
 ];
 
 export const demoSites: Record<'gym' | 'automotive' | 'peumatek', SiteConfig> = {
@@ -185,9 +184,9 @@ export const demoSites: Record<'gym' | 'automotive' | 'peumatek', SiteConfig> = 
       description: 'Estudio de desarrollo digital especializado en aplicaciones web, móviles, sistemas internos, integraciones y automatizaciones para negocios reales.',
       city: 'Peumo, Chile',
       address: 'Peumo, Chile',
-      phone: '[AGREGAR_TELEFONO]',
-      whatsapp: '[AGREGAR_WHATSAPP]',
-      email: '[AGREGAR_EMAIL]',
+      phone: '+56 9 7530 7980',
+      whatsapp: '56975307980',
+      email: 'jorge.urra.merino@gmail.com',
       logoText: 'PT'
     },
     seo: {
@@ -195,10 +194,7 @@ export const demoSites: Record<'gym' | 'automotive' | 'peumatek', SiteConfig> = 
       description: 'Desarrollo de sitios web, aplicaciones móviles, sistemas internos, integraciones y automatizaciones para negocios y profesionales en Chile.',
       image: '/images/peumatek-logo.png'
     },
-    social: {
-      github: 'https://github.com/',
-      linkedin: 'https://linkedin.com/in/'
-    },
+    social: {},
     hero: {
       eyebrow: 'Desarrollo digital a medida',
       title: 'Desarrollo soluciones digitales simples, modernas y a medida',
