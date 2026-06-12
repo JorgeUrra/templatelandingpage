@@ -2122,6 +2122,9 @@ textarea {
 
 html.theme-peumatek {
   background: var(--bg);
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .theme-peumatek body {
@@ -2129,6 +2132,9 @@ html.theme-peumatek {
   position: relative;
   isolation: isolate;
   overflow-x: hidden;
+  overflow-x: clip;
+  width: 100%;
+  max-width: 100%;
   background-color: var(--bg);
   background-image:
     radial-gradient(circle, rgba(63, 166, 107, 0.105) 1px, transparent 1.6px),
@@ -2371,7 +2377,7 @@ html.theme-peumatek {
   position: relative;
   padding: 116px 0 96px;
   isolation: isolate;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .hero--peumatek .hero__bg {
