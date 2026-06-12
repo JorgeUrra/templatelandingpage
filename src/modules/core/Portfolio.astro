@@ -153,6 +153,10 @@ import { lineIcons } from '../../data/icons';
     let shots = [];
     let idx = 0;
     let lastFocus = null;
+    let swipeStartX = 0;
+    let swipeStartY = 0;
+    let swipePointerId = null;
+    let isSwiping = false;
 
     const update = () => {
       stage.querySelectorAll('img').forEach((im, i) => { im.hidden = i !== idx; });
@@ -161,7 +165,7 @@ import { lineIcons } from '../../data/icons';
 
     const render = () => {
       stage.innerHTML = shots.map((src) => `<img src="${src}" alt="Captura de la aplicación" />`).join('');
-      dotsWrap.innerHTML = shots.map(() => '<button type="button" class="lightbox__dot" aria-label="Ir a captura"></button>').join('');
+      dotsWrap.innerHTML = shots.map((_, i) => `<button type="button" class="lightbox__dot" aria-label="Ir a captura ${i + 1}"></button>`).join('');
       dotsWrap.querySelectorAll('button').forEach((d, i) => d.addEventListener('click', () => { idx = i; update(); }));
       const multi = shots.length > 1;
       prevBtn.style.display = multi ? '' : 'none';
@@ -192,6 +196,38 @@ import { lineIcons } from '../../data/icons';
       update();
     };
 
+    const startSwipe = (event) => {
+      if (shots.length < 2 || !event.isPrimary) return;
+      swipeStartX = event.clientX;
+      swipeStartY = event.clientY;
+      swipePointerId = event.pointerId;
+      isSwiping = true;
+      stage.classList.add('is-swiping');
+      stage.setPointerCapture?.(event.pointerId);
+    };
+
+    const endSwipe = (event) => {
+      if (!isSwiping || event.pointerId !== swipePointerId) return;
+      const deltaX = event.clientX - swipeStartX;
+      const deltaY = event.clientY - swipeStartY;
+      const isHorizontalSwipe = Math.abs(deltaX) > 44 && Math.abs(deltaX) > Math.abs(deltaY) * 1.25;
+
+      if (isHorizontalSwipe) {
+        go(deltaX < 0 ? 1 : -1);
+      }
+
+      isSwiping = false;
+      swipePointerId = null;
+      stage.classList.remove('is-swiping');
+      stage.releasePointerCapture?.(event.pointerId);
+    };
+
+    const cancelSwipe = () => {
+      isSwiping = false;
+      swipePointerId = null;
+      stage.classList.remove('is-swiping');
+    };
+
     document.querySelectorAll('[data-shots]').forEach((t) => {
       t.addEventListener('click', () => {
         try { open(JSON.parse(t.dataset.shots)); } catch (e) {}
@@ -199,6 +235,9 @@ import { lineIcons } from '../../data/icons';
     });
     prevBtn.addEventListener('click', () => go(-1));
     nextBtn.addEventListener('click', () => go(1));
+    stage.addEventListener('pointerdown', startSwipe);
+    stage.addEventListener('pointerup', endSwipe);
+    stage.addEventListener('pointercancel', cancelSwipe);
     lb.querySelectorAll('[data-close]').forEach((c) => c.addEventListener('click', close));
     document.addEventListener('keydown', (e) => {
       if (lb.hidden) return;
