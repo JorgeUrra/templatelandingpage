@@ -65,7 +65,6 @@ const isReal = (value: string) => Boolean(value) && !value.includes('[');
 
     <form class="card contact-form" action="/api/contact" method="post">
       <input type="hidden" name="origen" value="Formulario de contacto PeumaTek" />
-      <label class="field--hidden">Empresa<input name="empresa_web" tabindex="-1" autocomplete="off" /></label>
       <label>Nombre<input name="nombre" autocomplete="name" required placeholder="Tu nombre" /></label>
       <label>Teléfono<input name="telefono" type="tel" autocomplete="tel" required placeholder="+56 9..." /></label>
       <label>Correo<input name="email" type="email" autocomplete="email" placeholder="correo@ejemplo.cl" /></label>

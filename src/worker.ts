@@ -32,11 +32,6 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
 
   try {
     const formData = await request.formData();
-    const honeypot = readField(formData, 'empresa_web');
-
-    if (honeypot) {
-      return respond(request, wantsJson, true, 'ok');
-    }
 
     const payload = {
       name: readField(formData, 'nombre', 90),
