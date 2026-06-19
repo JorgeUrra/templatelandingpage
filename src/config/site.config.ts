@@ -214,6 +214,12 @@ export const demoSites: Record<'gym' | 'automotive' | 'peumatek', SiteConfig> = 
   }
 };
 
+// OCULTAR VALORES EN PLANES:
+// Pon en true para enviar el sitio sin mostrar precios. Mantiene los planes
+// visibles (nombres, descripciones y características) pero esconde los montos,
+// mensualidades y condiciones. Vuelve a false para mostrar los precios.
+export const hidePrices = true;
+
 // CAMBIO RAPIDO DE DEMO:
 // - 'gym'        → Landing de gimnasio (tema oscuro amarillo)
 // - 'automotive' → Landing de automotora (tema claro azul)

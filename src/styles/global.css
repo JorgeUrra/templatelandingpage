@@ -1679,6 +1679,25 @@ textarea {
   place-items: center;
 }
 
+/* Escena de avatar PeumaTek (marco hexagonal + circuito + cara ilustrada) */
+.theme-peumatek .about-avatar-wrap {
+  width: 188px;
+  height: 188px;
+}
+
+.about-scene {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: var(--primary);
+}
+
+.about-scene svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .about-aura {
   position: absolute;
   inset: 0;
@@ -2899,10 +2918,11 @@ html.theme-peumatek {
   background: color-mix(in srgb, var(--accent) 28%, transparent);
 }
 
-/* Avatar de perfil también hexagonal (motivo coherente en lo humano) */
+/* Avatar de perfil circular: marco limpio tipo "foto de perfil" */
 .theme-peumatek .about-avatar {
-  border-radius: 0;
-  clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+  border-radius: 50%;
+  clip-path: none;
+  overflow: hidden;
 }
 
 /* ── 2) Contraste + aire + un color con intención ────────── */

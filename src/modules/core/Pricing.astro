@@ -3,7 +3,7 @@ import SectionHeader from '../shared/SectionHeader.astro';
 import Button from '../shared/Button.astro';
 import { pricingPlans, entryPlan } from '../../data/core';
 import { pricingNote } from '../../data/peumatek';
-import { siteConfig } from '../../config/site.config';
+import { siteConfig, hidePrices } from '../../config/site.config';
 import { lineIcons } from '../../data/icons';
 
 const isServices = siteConfig.businessType === 'services';
@@ -24,14 +24,13 @@ const ctaTarget = isServices ? undefined : '_blank';
       {pricingPlans.map((plan) => (
         <article class:list={["card", "pricing-card", "js-spotlight", plan.highlighted && "pricing-card--highlighted"]}>
           <span class="spotlight" aria-hidden="true"></span>
-          {plan.highlighted && <span class="pill">Más solicitado</span>}
           {(plan as any).icon && (
             <span class="service-icon pricing-icon" set:html={lineIcons[(plan as any).icon] ?? ''}></span>
           )}
           <h3>{plan.name}</h3>
-          <div class="price">{plan.price}</div>
-          <p class="muted price-period">{plan.period}</p>
-          {'note' in plan && plan.note && <p class="pricing-condition">{plan.note}</p>}
+          {!hidePrices && <div class="price">{plan.price}</div>}
+          {!hidePrices && <p class="muted price-period">{plan.period}</p>}
+          {!hidePrices && 'note' in plan && plan.note && <p class="pricing-condition">{plan.note}</p>}
           <p class="pricing-card__desc">{plan.description}</p>
           <ul class="check-list">
             {plan.features.map((feature) => <li>{feature}</li>)}
@@ -58,10 +57,12 @@ const ctaTarget = isServices ? undefined : '_blank';
           </div>
         </div>
         <div class="entry-plan__action">
-          <div class="entry-plan__price">
-            {entryPlan.price}
-            <span>{entryPlan.period}</span>
-          </div>
+          {!hidePrices && (
+            <div class="entry-plan__price">
+              {entryPlan.price}
+              <span>{entryPlan.period}</span>
+            </div>
+          )}
           <Button href={ctaHref} target={ctaTarget} label={entryPlan.ctaText} variant="secondary" />
         </div>
         <p class="entry-plan__note">{entryPlan.footnote}</p>
